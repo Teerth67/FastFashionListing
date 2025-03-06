@@ -1,0 +1,39 @@
+.carousel-wrapper {
+  width: 100%;
+  overflow: hidden;
+  position: relative;
+}
+
+.carousel-container {
+  width: 100%;
+  overflow: hidden;
+  position: relative;
+  background-color: white;
+  padding: 20px 0;
+  margin: 0 auto;
+}
+
+.carousel-track {
+  display: flex;
+  align-items: center;
+  gap: 25px;
+  animation: scroll 25s linear infinite;
+  padding: 0 40px;
+  width: max-content;
+}
+
+.carousel-item {
+  flex-shrink: 0;
+  width: 160px;
+  height: 57px;
+  object-fit: contain;
+}
+
+@keyframes scroll {
+  0% {
+      transform: translateX(0);
+  }
+  100% {
+      transform: translateX(calc(-50% ));
+  }
+}

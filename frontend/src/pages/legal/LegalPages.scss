@@ -1,0 +1,98 @@
+// Legal pages specific styling
+
+.glitchd-legal-wrapper {
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 40px 20px;
+    margin-top: 4rem;
+    // We're using dynamic padding in the component now
+    // If you prefer static padding, uncomment the next line instead
+    // padding-top: 200px;
+    
+    .glitchd-legal-title {
+      font-size: 2.5rem;
+      margin-bottom: 1rem;
+      font-weight: 700;
+      color: #333;
+    }
+    
+    .glitchd-last-updated {
+      color: #666;
+      font-style: italic;
+      margin-bottom: 2rem;
+      font-size: 0.9rem;
+    }
+    
+    .glitchd-legal-section {
+      margin-bottom: 2.5rem;
+    }
+    
+    .glitchd-legal-heading {
+      font-size: 1.5rem;
+      margin-bottom: 1rem;
+      font-weight: 600;
+      color: #333;
+    }
+    
+    .glitchd-legal-subheading {
+      font-size: 1.2rem;
+      margin-bottom: 0.8rem;
+      font-weight: 600;
+      color: #444;
+    }
+    
+    .glitchd-legal-text {
+      margin-bottom: 1rem;
+      line-height: 1.6;
+      color: #555;
+    }
+    
+    .glitchd-legal-list {
+      margin-bottom: 1rem;
+      padding-left: 2rem;
+      
+      .glitchd-legal-list-item {
+        margin-bottom: 0.5rem;
+        line-height: 1.6;
+        color: #555;
+      }
+    }
+    
+    .glitchd-legal-link {
+      color: #0066cc;
+      text-decoration: none;
+      
+      &:hover {
+        text-decoration: underline;
+      }
+    }
+  }
+  
+  // Responsive adjustments
+  @media (max-width: 768px) {
+    .glitchd-legal-wrapper {
+      padding: 30px 15px;
+      // Dynamic padding handles this now
+      // padding-top: 180px;
+      
+      .glitchd-legal-title {
+        font-size: 2rem;
+      }
+      
+      .glitchd-legal-heading {
+        font-size: 1.3rem;
+      }
+      
+      .glitchd-legal-subheading {
+        font-size: 1.1rem;
+      }
+    }
+  }
+  
+  // For very tall headers
+//   @media (max-width: 480px) {
+//     .glitchd-legal-wrapper {
+//       // Dynamic padding handles this now
+//       // padding-top: 150px;
+//     }
+//   }

@@ -1,0 +1,629 @@
+.transparent {
+  width: 100%;
+  position: fixed;
+  top: 0;
+  z-index: 9;
+  background-color: transparent;
+  color: #fff;
+  transition: all 0.5s;
+
+  .header {
+    background-color: transparent;
+  }
+
+  .logo {
+    a img {
+      filter: brightness(0) invert(1); // Makes the logo white
+      height: 40px;
+      width: auto;
+    }
+  }
+  svg {
+    // Invert method to make dark icons white
+    filter: brightness(0) invert(1);
+  }
+  nav ul li a,
+  .header-right .links a,
+  .header-right .links .loginText,
+  .header-right .links .registerText {
+    color: #fff;
+
+    svg {
+      color: #fff;
+      filter: brightness(0) invert(1);
+    }
+  }
+
+  .header-search-menu .searchBar ,
+  .header-search-menu .menu-icon svg {
+    color: #fff;
+    //filter: brightness(0) invert(1);
+  }
+  
+  .mobileSearch svg{
+    color:#fff;
+    //filter: brightness(0) invert(1);
+  }
+}
+
+// Fixed header state (when scrolling or on other pages)
+.fixed {
+  width: 100%;
+  position: fixed;
+  top: 0;
+  transition: all 0.5s;
+  z-index: 9;
+  background-color: #ECECEC;
+  //box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+
+  .header {
+    height: 7rem; // slightly shorter when fixed
+  }
+  
+  .logo {
+    a img {
+      height: 40px;
+      width: auto;
+    }
+  }
+}
+
+// Base header styles
+header {
+  width: 100%;
+  color: #000000; // Dark Color (Text)
+
+  .header {
+    width: 100%;
+    height: 8rem;
+    max-width: 1500px;
+    margin: 0 auto;
+    padding: 1rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: relative;
+    transition: all 0.5s;
+  }
+
+  .logo {
+    width: 25%;
+    
+    a {
+      display: flex;
+      align-items: center;
+      
+      img {
+        height: 40px;
+        width: auto;
+        max-width: 100%;
+        object-fit: contain;
+      }
+    }
+  }
+  
+  .logoMobile {
+    a {
+      display: flex;
+      align-items: center;
+      
+      img {
+        height: 35px;
+        width: auto;
+        max-width: 100%;
+      }
+    }
+  }
+
+  nav {
+    width: 75%;
+    display: flex;
+    justify-content: space-between;
+
+    ul {
+      display: flex;
+      justify-content: space-between;
+      list-style: none;
+
+      .logo-mobile {
+        display: none;
+      }
+
+      li {
+        margin: 0 5px;
+        a {
+          color: #000000; // Dark Color (Text)
+          transition: color 0.3s ease;
+          &:hover {
+            color: #B1A6A4; // Accent Color
+          }
+        }
+      }
+    }
+  }
+
+  .announcement {
+    width: 100%;
+    background-color: #000;
+    color: white;
+    text-align: center;
+    padding: 8px 0;
+    font-size: 14px;
+    font-weight: 500;
+  }
+
+  .header-right {
+    display: flex;
+
+    .cart a {
+      display: flex;
+      color: #000000; // Dark Color (Text)
+      position: relative;
+      transition: color 0.3s ease;
+      &:hover {
+        color: #B1A6A4; // Accent Color
+      }
+      &.active {
+        color: #595F63; // Contrast Shade
+      }
+      p {
+        position: absolute;
+        top: -1rem;
+        right: -1rem;
+        font-weight: 500;
+      }
+    }
+
+    span {
+      margin: 0 5px;
+
+      p {
+        color: #000000; // Dark Color (Text)
+      }
+    }
+
+    .links {
+      display: flex;
+      align-items: center;
+
+      a,
+      .loginText,
+      .registerText {
+        margin: 0 5px;
+        color: #000000; // Dark Color (Text)
+        transition: all 0.3s ease;
+        display: flex;
+        align-items: center;
+        cursor: pointer;
+        padding: 5px;
+
+        &:hover {
+          color: #B1A6A4; // Accent Color
+        }
+        &.active {
+          color: #595F63; // Contrast Shade
+        }
+
+        svg {
+          // Larger icons for desktop
+          width: 28px;
+          height: 28px;
+        }
+      }
+
+      .mobileOnly {
+        display: none;
+      }
+    }
+  }
+
+  .header-search-menu {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+
+    .searchBar {
+      display: flex;
+      align-items: center;
+
+      .mobileSearch {
+        display: none;
+        position: relative;
+        cursor: pointer;
+
+        .expandedSearch {
+          position: absolute;
+          top: 0%;
+          bottom: 50%;
+          right: 2rem;
+          width: 200px;
+          background-color: transparent;
+        }
+      }
+
+      .desktopSearch {
+        display: block;
+      }
+    }
+
+    .menu-icon {
+      cursor: pointer;
+      display: none;
+    }
+  }
+
+  @media screen and (max-width: 820px) {
+    nav {
+      display: block;
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 50%;
+      height: 100vh;
+      background-color: #ECECEC;
+      padding: 1rem;
+      z-index: 1000;
+      transform: translateX(-200%);
+      transition: all 0.3s;
+
+      .nav-wrapper {
+        position: absolute;
+        top: 0;
+        right: 0;
+        width: 100%;
+        height: 100vh;
+        background-color: rgba(0, 0, 0, 0.5);
+        transform: translateX();
+        transition: all 0.3s;
+      }
+
+      .show-nav-wrapper {
+        transform: translateX(100%);
+      }
+
+      ul {
+        display: block;
+        .logo-mobile {
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          > * {
+            cursor: pointer;
+          }
+        }
+        li {
+          padding: 5px 0;
+          border-bottom: 1px solid #595F63;
+          a {
+            display: block;
+            transition: color 0.3s ease;
+            &:hover {
+              color: #B1A6A4;
+            }
+          }
+        }
+      }
+
+      // Mobile Dropdown Integration
+      .mobileDropdownWrapper {
+        width: 100%;
+        padding: 15px 0;
+        
+        .menuContainer {
+          background-color: transparent;
+          border: none;
+          
+          .categoryRow {
+            flex-direction: column;
+            gap: 0;
+            padding: 0;
+          }
+          
+          .categoryContainer {
+            border-bottom: 1px solid #ddd;
+            
+            &:last-child {
+              border-bottom: none;
+            }
+            
+            .categoryHeader {
+              padding: 12px 20px;
+            }
+            
+            .dropdownContent {
+              position: static;
+              box-shadow: none;
+              padding: 0 20px !important;
+              background-color: transparent;
+              
+              .subcategoriesGrid {
+                grid-template-columns: 1fr;
+                padding: 0;
+                
+                .subcategory {
+                  color: #000;
+                  padding: 10px 0;
+                  
+                  &:hover {
+                    background-color: #f5f5f5;
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+
+      .header-right {
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+
+        .cart {
+          border-bottom: 1px solid #595F63;
+          padding: 5px 0;
+
+          a {
+            color: #000000;
+            position: relative;
+            transition: color 0.3s ease;
+            &:hover {
+              color: #B1A6A4;
+            }
+            p {
+              position: absolute;
+              top: -1rem;
+              left: 5rem;
+              font-weight: 500;
+              color: #000000;
+            }
+          }
+        }
+
+        .links {
+          display: flex;
+          flex-direction: column;
+          width: 100%;
+
+          a,
+          .loginText,
+          .registerText {
+            display: flex;
+            align-items: center;
+            width: 100%;
+            margin: 0;
+            padding: 10px 0;
+            border-bottom: 1px solid #595F63;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            font-size: medium;
+
+            &:hover {
+              color: #B1A6A4;
+              text-decoration: underline;
+            }
+
+            .mobileOnly {
+              display: inline;
+              margin-left: 8px;
+            }
+
+            svg {
+              width: 20px;
+              height: 20px;
+            }
+          }
+        }
+      }
+    }
+
+    .show-nav {
+      transform: translateX(0);
+    }
+
+    .hide-nav {
+      transform: translateX(-200%);
+    }
+
+    .header-search-menu {
+      .searchBar {
+        .desktopSearch {
+          display: none;
+        }
+
+        .mobileSearch {
+          display: block;
+        }
+      }
+
+      .menu-icon {
+        display: block;
+      }
+    }
+    
+    .logo {
+      width: auto;
+      
+      a img {
+        height: 35px;
+      }
+    }
+  }
+
+  // Mobile adjustments for transparent header
+  @media screen and (max-width: 820px) {
+    &.transparent {
+      .menu-icon {
+        color: #fff;
+      }
+
+      nav {
+        background-color: #ECECEC;
+
+        .logo-mobile img {
+          filter: none; // Don't invert colors for mobile menu logo
+        }
+
+        ul li a,
+        .header-right .links a,
+        .header-right .links .loginText,
+        .header-right .links .registerText {
+          color: #000000;
+          filter: none;
+
+          svg {
+            filter: none;
+            color: #595F63;
+          }
+        }
+        
+        .mobileDropdownWrapper {
+          .categoryContainer {
+            .category {
+              color: #000;
+            }
+            .dropdownContent {
+              .subcategory {
+                color: #333;
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+// Ensure the announcement bar stays properly aligned
+.transparent,
+.fixed {
+  .announcement {
+    position: relative;
+    top: 0;
+    width: 100%;
+  }
+}
+
+// Desktop Dropdown Wrapper
+.dropdownWrapper {
+  position: fixed; 
+  top: 10rem; 
+  right: 0rem; 
+  left:0rem;
+  z-index: 1000; 
+  background-color: #B1A6A4; 
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); 
+  border-radius: 4px; 
+  transition: all 0.3s ease; 
+
+  @media screen and (max-width: 820px) {
+    display: none; // Hide desktop dropdown on mobile
+  }
+}
+
+// Mobile Dropdown Overrides
+@media screen and (max-width: 820px) {
+  .menuContainer {
+    .categoryRow {
+      flex-direction: column !important;
+      height: auto !important;
+    }
+    
+    .categoryContainer {
+      width: 100% !important;
+      border-bottom: 1px solid #ddd !important;
+      
+      &:last-child {
+        border-bottom: none !important;
+      }
+    }
+    
+    .dropdownContent {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.3s ease-out;
+      
+      &[data-mobile-active="true"] {
+        max-height: 400px; // Adjust based on content
+      }
+    }
+  }
+}
+
+// Fix for small mobile screens (< 415px)
+@media screen and (max-width: 415px) {
+  header {
+    nav {
+      width: 80%; // Increase width on very small screens
+      
+      .header-right {
+        .links {
+          a,
+          .loginText,
+          .registerText {
+            font-size: 14px; // Slightly smaller font
+            padding: 8px 0; // Adjust padding
+            
+            svg {
+              min-width: 16px; // Ensure icons don't shrink too much
+              height: 16px;
+            }
+            
+            .mobileOnly {
+              margin-left: 4px; // Less space between icon and text
+            }
+          }
+        }
+      }
+    }
+    
+    // Ensure menu is still accessible
+    .header-search-menu {
+      gap: 0.5rem; // Reduce gap on very small screens
+      
+      .mobileSearch {
+        .expandedSearch {
+          right: 0; // Adjust position
+          width: 150px; // Smaller width for search
+        }
+      }
+    }
+  }
+  
+  // Adjustments for transparent and fixed headers
+  .transparent,
+  .fixed {
+    .header {
+      padding: 0.5rem; // Reduce padding
+    }
+    
+    .logo a img {
+      height: 30px; // Smaller logo
+    }
+  }
+  
+  // Ensure dropdown wrapper doesn't overflow
+  .dropdownWrapper {
+    width: 100%;
+    max-width: 100%;
+    overflow-x: hidden;
+  }
+}
+
+// Handle extremely small screens
+@media screen and (max-width: 320px) {
+  header {
+    .header {
+      height: 6rem; // Even smaller header height
+    }
+    
+    nav {
+      width: 85%; // Wider nav on tiny screens
+    }
+    
+    .logo a img {
+      height: 25px; // Smallest logo size
+    }
+  }
+}
+

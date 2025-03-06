@@ -1,0 +1,306 @@
+.profile-section {
+  min-height: 100vh;
+  background-color: #f7f7f7;
+
+  .container {
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  // Header Section
+  .profile-header {
+    position: relative;
+    margin-bottom: 4rem;
+    margin-top: 10rem;
+
+    .cover-photo {
+      width: 100%;
+      height: 200px;
+      background: linear-gradient(to right, #222222, #595F63);
+      border-radius: 0 0 20px 20px;
+      overflow: hidden;
+    }
+
+    .profile-photo {
+      position: relative;
+      bottom: -50px;
+      left: 50%;
+      transform: translateX(-50%);
+      text-align: center;
+
+      .photo-container {
+        position: relative;
+        display: inline-block;
+
+        .profile-image {
+          width: 150px;
+          height: 150px;
+          border-radius: 50%;
+          border: 4px solid #ECECEC;
+          box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+          object-fit: cover;
+          background-color: #fff;
+        }
+
+        .edit-photo-button {
+          position: absolute;
+          bottom: 0;
+          right: 0;
+          background-color: #222222;
+          color: #ECECEC;
+          border-radius: 50%;
+          padding: 8px;
+          box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+          cursor: pointer;
+          transition: transform 0.2s, background-color 0.2s;
+
+          &:hover {
+            transform: scale(1.1);
+            background-color: #595F63;
+          }
+        }
+      }
+    }
+
+    .basic-info {
+      text-align: center;
+      margin-top: 60px;
+
+      .user-name {
+        font-size: 1.75rem;
+        font-weight: 600;
+        color: #000000;
+        margin-bottom: 0.5rem;
+      }
+
+      .user-location {
+        color: #595F63;
+        font-size: 0.9rem;
+        margin-bottom: 0.5rem;
+      }
+
+      .join-date {
+        color: #B1A6A4;
+        font-size: 0.85rem;
+      }
+
+      .social-links {
+        margin-top: 1rem;
+        
+        a {
+          margin: 0 0.5rem;
+          color: #595F63;
+          transition: color 0.2s;
+
+          &:hover {
+            color: #222222;
+          }
+        }
+      }
+    }
+  }
+
+  // Stats Section
+  .profile-stats {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1.5rem;
+    margin-bottom: 2rem;
+    padding: 0 1rem;
+
+    .stat-card {
+      background: #fff;
+      padding: 1.5rem;
+      border-radius: 12px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+      text-align: center;
+      transition: transform 0.2s, box-shadow 0.2s;
+
+      &:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+      }
+
+      .stat-icon {
+        font-size: 1.5rem;
+        color: #222222;
+        margin-bottom: 0.5rem;
+      }
+
+      .stat-value {
+        font-size: 1.25rem;
+        font-weight: 600;
+        color: #000000;
+      }
+
+      .stat-label {
+        font-size: 0.9rem;
+        color: #595F63;
+      }
+    }
+  }
+
+  // Navigation Tabs
+  .profile-tabs {
+    background: #fff;
+    padding: 1rem 0;
+    margin-bottom: 2rem;
+    border-radius: 12px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+
+    .tab-list {
+      display: flex;
+      justify-content: center;
+      gap: 2rem;
+      list-style: none;
+      padding: 0;
+      margin: 0;
+
+      .tab-item {
+        padding: 0.5rem 1rem;
+        color: #595F63;
+        cursor: pointer;
+        border-bottom: 2px solid transparent;
+        transition: all 0.2s;
+
+        &:hover {
+          color: #222222;
+        }
+
+        &.active {
+          color: #222222;
+          border-bottom-color: #222222;
+        }
+      }
+    }
+  }
+
+  // Content Sections
+  .profile-content {
+    padding: 0 1rem;
+
+    .content-section {
+      background: #fff;
+      border-radius: 12px;
+      padding: 2rem;
+      margin-bottom: 2rem;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+
+      .section-title {
+        font-size: 1.25rem;
+        font-weight: 600;
+        color: #000000;
+        margin-bottom: 1.5rem;
+      }
+    }
+  }
+
+  // Forms
+  .profile-form {
+    .form-group {
+      margin-bottom: 1.5rem;
+
+      label {
+        display: block;
+        font-size: 0.9rem;
+        color: #595F63;
+        margin-bottom: 0.5rem;
+      }
+
+      .form-input {
+        width: 100%;
+        padding: 0.75rem;
+        border: 1px solid #B1A6A4;
+        border-radius: 8px;
+        font-size: 1rem;
+        transition: all 0.2s;
+        background-color: #fff;
+        color: #000000;
+
+        &:focus {
+          outline: none;
+          border-color: #222222;
+          box-shadow: 0 0 0 1px #222222;
+        }
+
+        &:disabled {
+          background-color: #ECECEC;
+          border-color: #B1A6A4;
+          color: #595F63;
+          cursor: not-allowed;
+        }
+      }
+    }
+
+    .update-button {
+      background-color: #222222;
+      color: #ECECEC;
+      border: none;
+      padding: 0.75rem 1.5rem;
+      border-radius: 8px;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: background-color 0.2s;
+
+      &:hover {
+        background-color: #595F63;
+      }
+    }
+  }
+
+  .upload-button-container {
+    margin: 1rem 0;
+    text-align: center;
+
+    .upload-button {
+      background-color: #222222;
+      color: #ECECEC;
+      border: none;
+      padding: 0.75rem 1.5rem;
+      border-radius: 8px;
+      font-size: 1rem;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      transition: background-color 0.2s;
+
+      &:hover {
+        background-color: #595F63;
+      }
+    }
+  }
+}
+
+// Additional utility classes
+.username {
+  color: #222222;
+  font-weight: 600;
+}
+
+// Responsive Design
+@media (max-width: 768px) {
+  .profile-section {
+    .profile-header {
+      .cover-photo {
+        height: 150px;
+      }
+
+      .profile-photo {
+        .photo-container {
+          .profile-image {
+            width: 120px;
+            height: 120px;
+          }
+        }
+      }
+    }
+
+    .profile-tabs {
+      .tab-list {
+        flex-wrap: wrap;
+        gap: 1rem;
+      }
+    }
+  }
+}
