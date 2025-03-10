@@ -40,8 +40,8 @@
         "redux-persist": "^6.0.0",
         "sass": "^1.63.4",
         "stripe": "^11.9.1",
-        "web-vitals": "^2.1.4",
-        "proxy":"http://glitchd-env.eba-y2uqxcpf.ap-south-1.elasticbeanstalk.com"
+        "web-vitals": "^2.1.4"
+
         
     },
     "scripts": {
