@@ -1,10 +1,10 @@
 import axios from "axios";
 import { toast } from "react-toastify";
-const BACKEND_URL = "http://localhost:5000/proxy";
+const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
 
 
 const axiosInstance = axios.create({
-  baseURL: BACKEND_URL,
+  baseURL:`${BACKEND_URL}/proxy`,
   withCredentials: true,
   headers: {
     "Content-Type": "application/json",
