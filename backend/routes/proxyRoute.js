@@ -9,7 +9,7 @@ const SECRET_KEY = process.env.JWT_SECRET;
 const VALID_API_KEY = process.env.SECRET_API_KEY; // API Key stored in env
 
 // Allowed frontend domains
-const ALLOWED_ORIGINS = ["http://3.111.9.37"];
+const ALLOWED_ORIGINS = ["http://3.111.9.37","http://glitchd.in"];
 
 
 // ✅ Middleware: Verify JWT for Logged-in Users
