@@ -30,33 +30,28 @@ const SearchResultsPage = () => {
 
   useEffect(() => {
     window.scrollTo(0, 0);
-    // Check if query or sort has changed
+  
     const isQueryChanged = prevQueryRef.current !== query;
     const isSortChanged = prevSortRef.current !== sort;
-
-    if (isQueryChanged || isSortChanged) {
-      // Reset state
+  
+    if ((query && !initialLoadDone) || isQueryChanged || isSortChanged) {
       setProducts([]);
       setPage(1);
       setHasMore(false);
       setError(null);
-
-      // Ensure sort is set to "newest" if not already set
+  
       const effectiveSort = sort || "newest";
       if (!sort) {
         dispatch(setSort("newest"));
       }
-
-      // Search if query exists
-      if (query) {
-        searchProducts(query, 1, effectiveSort);
-      }
-
-      // Update refs
+  
+      searchProducts(query, 1, effectiveSort);
       prevQueryRef.current = query;
       prevSortRef.current = effectiveSort;
+      setInitialLoadDone(true);
     }
-  }, [query, sort, dispatch]);
+  }, [query, sort, dispatch, initialLoadDone]);
+  
 
 
   // TRACK SORT CHANGES: Reset and re-fetch when sort changes after the initial load.

@@ -24,7 +24,7 @@ app.use(express.urlencoded({ extended: false }));
 const allowedOrigins = [
   "http://3.111.9.37:80", // Your domain with port
  "http://3.111.9.37", // Server IP
- "http://glitchd.in",
+ "htpp://glitchd.in"
 ];
   
 
