@@ -41,7 +41,7 @@ exports.subscribeNewsletter = async (req, res) => {
         console.log("Generated Token:", token);
 
         // Send verification email
-        const verificationUrl = `http://localhost:5000/newsletter/verify?token=${token}`;
+        const verificationUrl = `http://glitchd.in:5000/newsletter/verify?token=${token}`;
         await sendVerificationEmail(email, name, token);
 
         res.status(200).json({ message: "Verification email sent!" });

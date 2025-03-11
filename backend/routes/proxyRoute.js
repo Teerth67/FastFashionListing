@@ -4,7 +4,7 @@ const rateLimit = require("express-rate-limit");
 const jwt = require("jsonwebtoken");
 
 const router = express.Router();
-const BACKEND_API = "http://localhost:5000/api"; 
+const BACKEND_API = "http:/glitchd.in:5000/api"; 
 const SECRET_KEY = process.env.JWT_SECRET; 
 const VALID_API_KEY = process.env.SECRET_API_KEY; // API Key stored in env
 
