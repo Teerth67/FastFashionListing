@@ -21,11 +21,10 @@ app.use(cookieParser());
 app.use(express.urlencoded({ extended: false }));
 
 
-  const allowedOrigins = [
-    "http://glitchd.in", // Frontend
-    "http://127.0.0.1:3000", // Alternative localhost
-   
-  ];
+const allowedOrigins = [
+  "http://3.111.9.37:80", // Your domain with port
+ "http://3.111.9.37", // Server IP
+];
   
 
 
