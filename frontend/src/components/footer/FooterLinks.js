@@ -15,7 +15,7 @@ const brandLinks = [
   { name: "WtFlex", path: "/collections/WtFlex" },
   { name: "Six5Six", path: "/collections/Six5Six" },
   { name: "Drip Project", path: "/collections/DripProject" },
-  { name: "Crayyheads", path: "/collections/Crayyheads" },
+  
   { name: "Bomaachi", path: "/collections/Bomaachi" },
   { name: "Blck Orchid", path: "/collections/BlckOrchid" },
   { name: "Future Saints", path: "/collections/FutureSaints" },
@@ -102,7 +102,7 @@ const FooterLinks = () => {
       <section className="contact-section">
         <div className="container contact">
           <div className="contact-icons">
-            <a href="https://instagram.com" target="_blank" rel="noopener noreferrer">
+            <a href="https://www.instagram.com/glitchd.in?igsh=eGgwb29yb2Q5eDNz&utm_source=qr" target="_blank" rel="noopener noreferrer">
               <FaInstagram className="icon" />
             </a>
           </div>
@@ -150,11 +150,11 @@ const FooterLinks = () => {
             onClick={goToHome}
             style={{ cursor: "pointer" }}/>
             
-            <div className="footer-social-icons">
-              <a href="https://instagram.com" target="_blank" rel="noopener noreferrer">
+            {/* <div className="footer-social-icons">
+              <a href="https://www.instagram.com/glitchd.in?igsh=eGgwb29yb2Q5eDNz&utm_source=qr " target="_blank" rel="noopener noreferrer">
                 <FaInstagram className="social-icon" />
               </a>
-            </div>
+            </div> */}
           </div>
 
           <div className="footer-menus-container">
@@ -178,7 +178,7 @@ const FooterLinks = () => {
     <ul className="footer-links">
       <li>
       <a
-  href="https://mail.google.com/mail/?view=cm&fs=1&to=teerthmittal05@gmail.com"
+  href="https://mail.google.com/mail/?view=cm&fs=1&to=info@glitchd.in"
   target="_blank"
   rel="noopener noreferrer"
 >

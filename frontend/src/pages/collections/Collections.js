@@ -37,7 +37,7 @@ const Collections = () => {
       prevGenderRef.current = gender;
       prevSortRef.current = sort;
       
-      console.log(`Fetching products: source=${source}, gender=${gender}, sort=${sort}, initialLoad=${!initialLoadDone}`);
+      // console.log(`Fetching products: source=${source}, gender=${gender}, sort=${sort}, initialLoad=${!initialLoadDone}`);
       
       dispatch(resetProducts());
       dispatch(fetchProductsByCollection({ source, gender, page: 1, sort }));
@@ -52,7 +52,7 @@ const Collections = () => {
   const fetchNextPage = useCallback(() => {
     if (status === "loading" || !hasMore) return;
     
-    console.log(`Fetching next page: ${page}, source=${source}, gender=${gender}, sort=${sort}`);
+    // console.log(`Fetching next page: ${page}, source=${source}, gender=${gender}, sort=${sort}`);
     dispatch(fetchProductsByCollection({ gender, source, page, sort }));
   }, [status, dispatch, page, hasMore, gender, source, sort]);
 

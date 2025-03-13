@@ -1,4 +1,7 @@
 const nodemailer = require("nodemailer");
+const express = require("express");
+const app = express();
+app.use(express.static("public"));
 
 // Configure transporter
 const transporter = nodemailer.createTransport({
@@ -16,9 +19,9 @@ const transporter = nodemailer.createTransport({
  */
 const sendEmail = async (to, firstName) => {
   const subject = "Welcome to the Future of Fashion — Your Glitch’d Exclusive Awaits!";
-  const logoUrl = "https://yourwebsite.com/path-to-your-logo.png"; // Replace with actual logo URL
-  const shopUrl = "https://yourwebsite.com/shop"; // Replace with actual shop link
-  const socialUrl = "https://instagram.com/yourbrand"; // Replace with actual social link
+  const logoUrl = "https://glitchd.in/f_logo.png"; // Replace with actual logo URL
+  const shopUrl = "https://glitchd.in"; // Replace with actual shop link
+  const socialUrl = "https://www.instagram.com/glitchd.in?igsh=eGgwb29yb2Q5eDNz&utm_source=qr "; // Replace with actual social link
 
   const htmlContent = `
   <div style="font-family: Arial, sans-serif; max-width: 600px; margin: auto; padding: 20px; border-radius: 10px; background: #000; color: #fff;">
@@ -73,7 +76,7 @@ const sendEmail = async (to, firstName) => {
  */
 const sendVerificationEmail = async (to, name, token) => {
   const subject = "Verify Your Email - Glitch’d";
-  const logoUrl = "https://yourwebsite.com/path-to-your-logo.png"; 
+  const logoUrl = "https://glitchd.in/f_logo.png"; 
   const verificationUrl = `http://glitchd.in:5000/newsletter/verify?token=${token}`;
 
   const htmlContent = `

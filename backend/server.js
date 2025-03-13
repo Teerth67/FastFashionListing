@@ -24,7 +24,10 @@ app.use(express.urlencoded({ extended: false }));
 const allowedOrigins = [
   "http://3.111.9.37:80", // Your domain with port
  "http://3.111.9.37", // Server IP
- "htpp://glitchd.in"
+ "http://glitchd.in"
+// "http://localhost:3000",
+
+// "http://127.0.0.1:3000"
 ];
   
 
@@ -35,7 +38,7 @@ app.use(
   cors({
     origin: allowedOrigins,
     credentials: true, // ✅ Allow cookies, tokens, etc.
-    methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+    methods: ["GET", "POST","PATCH", "PUT", "DELETE", "OPTIONS"],
     allowedHeaders: ["Content-Type", "Authorization"],
     preflightContinue: false, // ✅ Allow preflight requests through
   })

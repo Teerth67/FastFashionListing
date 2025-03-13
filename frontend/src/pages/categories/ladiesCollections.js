@@ -107,7 +107,7 @@ const LadiesCategoryCollections = () => {
 
   const fetchNextPage = useCallback(() => {
     if (status === "loading" || !hasMore) return;
-    console.log(`Fetching next page: ${page}, category=${formattedCategory}, gender=${gender}, sort=${sort}`);
+    // console.log(`Fetching next page: ${page}, category=${formattedCategory}, gender=${gender}, sort=${sort}`);
     dispatch(fetchProductsByCollection({ category: formattedCategory, gender, page, sort }));
   }, [status, dispatch, page, hasMore, gender, formattedCategory, sort]);
 

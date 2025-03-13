@@ -40,7 +40,7 @@ const AboutUsPopup = () => {
           
           <div className={styles.section}>
             <p>The Movement</p>
-            <p>Founded in 2023, GLITCH'D was born from a desire to disrupt fast fashion. We're here to blur the lines between trends and individuality—because style isn't about fitting in; it's about standing out. No limits. No labels. Just raw, unfiltered expression.</p>
+            <p>Founded in 2025, GLITCH'D was born from a desire to disrupt fast fashion. We're here to blur the lines between trends and individuality—because style isn't about fitting in; it's about standing out. No limits. No labels. Just raw, unfiltered expression.</p>
           </div>
           
           <div className={styles.section}>

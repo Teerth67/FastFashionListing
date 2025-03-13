@@ -4,12 +4,13 @@ const rateLimit = require("express-rate-limit");
 const jwt = require("jsonwebtoken");
 
 const router = express.Router();
-const BACKEND_API = "http:/glitchd.in:5000/api"; 
+const BACKEND_API = "http://glitchd.in/api"; 
 const SECRET_KEY = process.env.JWT_SECRET; 
 const VALID_API_KEY = process.env.SECRET_API_KEY; // API Key stored in env
 
 // Allowed frontend domains
-const ALLOWED_ORIGINS = ["http://3.111.9.37","http://glitchd.in"];
+const ALLOWED_ORIGINS = [ "http://3.111.9.37",
+  "http://glitchd.in"];
 
 
 // ✅ Middleware: Verify JWT for Logged-in Users

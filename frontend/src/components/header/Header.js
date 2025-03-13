@@ -10,21 +10,7 @@ import { UserName } from "../../pages/profile/Profile";
 import DropdownMenu from "../Dropdown/Dropdown";
 import { SearchBar } from "../search/Search";
 import logoImg from "../../assets/logo.png"
-export const logo = (
-  <div className={styles.logo}>
-    <Link
-      to="/"
-      onClick={(e) => {
-        if (window.location.pathname === "/") {
-          e.preventDefault(); // Prevent navigation and force reload
-          window.location.reload();
-        }
-      }}
-     >
-    <img src={logoImg} alt="Glitch'd Logo" />
-    </Link>
-  </div>
-);
+
 
 const activeLink = ({ isActive }) => (isActive ? `${styles.active}` : "");
 
@@ -37,7 +23,24 @@ const Header = ({ openLogin, openRegister }) => {
   const location = useLocation();
   const isHomePage = location.pathname === "/";
   const [isMobile, setIsMobile] = useState(false);
-
+  const logoElement = (
+    <div className={styles.logo}>
+      <Link
+        to="/"
+        onClick={(e) => {
+          if (window.location.pathname === "/") {
+            e.preventDefault(); // Prevent navigation and force reload
+            setShowMenu(false); // Close the menu before reloading
+            window.location.reload();
+          } else {
+            setShowMenu(false); // Also close menu when navigating to home from another page
+          }
+        }}
+       >
+      <img src={logoImg} alt="Glitch'd Logo" />
+      </Link>
+    </div>
+  );
   // Handle scroll for navbar
   useEffect(() => {
     const fixNavbar = () => {
@@ -107,7 +110,7 @@ const Header = ({ openLogin, openRegister }) => {
         <p>New szn, new drops! Explore the latest collection</p>
       </div>
       <div className={styles.header}>
-        {logo}
+        {logoElement}
         <nav className={`${styles.nav} ${showMenu ? `${styles["show-nav"]}` : `${styles["hide-nav"]}`}`}>
           <div
             className={showMenu ? `${styles["nav-wrapper"]} ${styles["show-nav-wrapper"]}` : `${styles["nav-wrapper"]}`}
@@ -117,7 +120,13 @@ const Header = ({ openLogin, openRegister }) => {
           <ul>
             <li className={styles["logo-mobile"]}>
               <div className={styles.logoMobile}>
-                <Link to="/">
+                <Link to="/" onClick={(e) => {
+                  hideMenu(); // Close the menu
+                  if (window.location.pathname === "/") {
+                    e.preventDefault();
+                    window.location.reload();
+                  }
+                }}>
                   <img src={logoImg} alt="Glitch'd Logo" />
                 </Link>
               </div>
@@ -127,12 +136,14 @@ const Header = ({ openLogin, openRegister }) => {
 
           <div className={styles["header-right"]}>
             <span className={styles.links}>
-              <ShowOnLogin>
-                <NavLink to="/profile" className={activeLink}>
-                  <FaUserCircle color="rgb(38, 38, 38)"  />
-                  <span className={styles.mobileOnly}><UserName /></span>
-                </NavLink>
-              </ShowOnLogin>
+            <ShowOnLogin>
+  <NavLink to="/profile" className={activeLink} onClick={hideMenu}>
+    <FaUserCircle color="rgb(38, 38, 38)" />
+    <span className={styles.mobileOnly}><UserName /></span>
+  </NavLink>
+</ShowOnLogin>
+
+
 
               {isMobile && (
                 <div className={styles.mobileDropdownWrapper}>
@@ -155,11 +166,11 @@ const Header = ({ openLogin, openRegister }) => {
               </ShowOnLogout>
 
               <ShowOnLogin>
-                <NavLink to="/wishlist" className={`${activeLink} ${styles.wishlist}`}>
-                  <FaHeart color="rgb(38, 38, 38)"  />
-                  <span className={styles.mobileOnly}>Wishlist</span>
-                </NavLink>
-              </ShowOnLogin>
+  <NavLink to="/wishlist" className={`${activeLink} ${styles.wishlist}`} onClick={hideMenu}>
+    <FaHeart color="rgb(38, 38, 38)" />
+    <span className={styles.mobileOnly}>Wishlist</span>
+  </NavLink>
+</ShowOnLogin>
 
               <ShowOnLogin>
                 <Link to="/" onClick={logoutUser}>
@@ -198,6 +209,7 @@ const Header = ({ openLogin, openRegister }) => {
       {!isMobile && (scrollPage || !isHomePage) && (
         <div className={styles.dropdownWrapper}>
           <DropdownMenu isMobileOpen={false} />
+          
         </div>
       )}
     </header>

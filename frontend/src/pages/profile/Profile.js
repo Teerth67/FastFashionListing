@@ -59,7 +59,7 @@ const Profile = () => {
    // { id: "orders", label: "My Orders" },
     { id: "wishlist", label: "Wishlist" },
     { id: "settings", label: "Settings" },
-    { id: "addresses", label: "Addresses" },
+   
     { id: "about", label: "About Us" },
   ];
 

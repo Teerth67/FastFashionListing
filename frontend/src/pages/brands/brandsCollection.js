@@ -44,18 +44,17 @@ const getDatabaseName = (slug) => {
   if (!slug) return "";
 
   let decodedSlug = decodeURIComponent(slug);
-  console.log("Original Slug:", slug);
-  console.log("Decoded Slug:", decodedSlug);
+
 
   // ✅ Special case for "H&M" handling
   if (decodedSlug.toLowerCase() === "hm" || decodedSlug.toLowerCase() === "h&m") {
-    console.log("Matched H&M manually");
+    
     return "H&M";
   }
 
   // ✅ Direct match before formatting
   if (brandNameMapping[decodedSlug]) {
-    console.log("Matched Directly in brandNameMapping:", brandNameMapping[decodedSlug]);
+
     return brandNameMapping[decodedSlug];
   }
 
@@ -68,10 +67,9 @@ const getDatabaseName = (slug) => {
     .replace(/\b\w/g, (char) => char.toUpperCase()) // Capitalize each word
     .trim();
 
-  console.log("Formatted Name:", formattedName);
 
   const finalName = brandNameMapping[formattedName] || formattedName;
-  console.log("Final Database Name:", finalName);
+
 
   return finalName;
 };
@@ -97,7 +95,7 @@ const BrandCollections = () => {
   useEffect(() => {
     // Validate collection/brand
     if (source && !isValidCollection(source)) {
-      console.error(`Invalid collection: ${source}`);
+      // console.error(`Invalid collection: ${source}`);
       navigate("/404"); // Redirect to 404 page or homepage
       return;
     }
@@ -114,7 +112,7 @@ const BrandCollections = () => {
       prevDatabaseNameRef.current = databaseName;
       prevGenderRef.current = gender;
       
-      console.log(`Fetching products: source=${databaseName}, gender=${gender}, initialLoad=${!initialLoadDone}`);
+      // console.log(`Fetching products: source=${databaseName}, gender=${gender}, initialLoad=${!initialLoadDone}`);
       
       dispatch(resetProducts());
       if (!sort) dispatch(setSort("newest"));
@@ -130,7 +128,7 @@ const BrandCollections = () => {
   useEffect(() => {
     if (initialLoadDone && prevSortRef.current !== sort && sort) {
       prevSortRef.current = sort;
-      console.log(`Sort changed to ${sort}, refetching products`);
+      // console.log(`Sort changed to ${sort}, refetching products`);
       
       dispatch(resetProducts());
       dispatch(fetchProductsByCollection({ source: databaseName, gender, page: 1, sort }));
@@ -139,7 +137,7 @@ const BrandCollections = () => {
 
   const fetchNextPage = useCallback(() => {
     if (status === "loading" || !hasMore) return;
-    console.log(`Fetching next page: ${page}, source=${databaseName}, gender=${gender}, sort=${sort}`);
+    // console.log(`Fetching next page: ${page}, source=${databaseName}, gender=${gender}, sort=${sort}`);
     dispatch(fetchProductsByCollection({ gender, source: databaseName, page, sort }));
   }, [status, dispatch, page, hasMore, gender, databaseName, sort]);
 

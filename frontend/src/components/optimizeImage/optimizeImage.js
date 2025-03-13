@@ -59,7 +59,7 @@ const OptimizedImage = ({
   parallaxMode = false 
 }) => {
   const [screenWidth, setScreenWidth] = useState(window.innerWidth);
- console.log("src",src)
+//  console.log("src",src)
   useEffect(() => {
     const handleResize = () => setScreenWidth(window.innerWidth);
     window.addEventListener("resize", handleResize);

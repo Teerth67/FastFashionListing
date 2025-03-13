@@ -136,11 +136,11 @@ const PrivacyPolicy = () => {
             If you have any questions about this Privacy Policy, please contact us at:{" "}
             <a 
               className="glitchd-legal-link"
-              href="https://mail.google.com/mail/?view=cm&fs=1&to=teerthmittal05@gmail.com"
+              href="https://mail.google.com/mail/?view=cm&fs=1&to=legal@glitchd.in"
               target="_blank"
               rel="noopener noreferrer"
             >
-              teerthmittal05@gmail.com
+              legal@glitchd.in
             </a>
           </p>
         </section>

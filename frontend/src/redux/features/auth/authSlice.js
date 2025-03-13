@@ -4,7 +4,7 @@ import { toast } from "react-toastify"
 import axiosInstance from "../../../axiosinterceptor/axiosInstance";
 import { clearWishlist } from "../wishlist/wishlistSlice";
 
-const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
+// const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
 
 const initialState = {
     isLoggedIn: !!localStorage.getItem("token"),
@@ -73,7 +73,7 @@ export const logout = createAsyncThunk(
         
         return response.data.message;
       } catch (error) {
-        console.error("Logout failed:", error);
+        // console.error("Logout failed:", error);
         return thunkAPI.rejectWithValue(error.response?.data || "Logout failed");
       }
     }
@@ -199,7 +199,7 @@ const authSlice = createSlice({
             localStorage.setItem("token", action.payload.token); 
             localStorage.setItem("user", JSON.stringify(action.payload.user)); // ✅ Save full user data
             
-            console.log("User after login:", action.payload.user); // ✅ Check if photo is included
+            // console.log("User after login:", action.payload.user); // ✅ Check if photo is included
             
             toast.success("Login Successful");
         })
@@ -223,7 +223,7 @@ const authSlice = createSlice({
             state.isLoggedIn= false
             state.user = null
             toast.success(action.payload)
-            console.log( action.payload)
+            // console.log( action.payload)
         })
         .addCase(logout.rejected,(state,action)=>{
             state.isLoading=false
@@ -241,7 +241,7 @@ const authSlice = createSlice({
             state.isLoading=false
             state.isSuccess=true
             state.isLoggedIn= action.payload
-            console.log( action.payload)
+            // console.log( action.payload)
             if(action.payload.message === "invalid signature"){
                 state.isLoggedIn= false
             }
@@ -264,7 +264,7 @@ const authSlice = createSlice({
             state.isLoggedIn= true
             state.user=action.payload
 
-            console.log( action.payload)
+            // console.log( action.payload)
             
         })
         .addCase(getUser.rejected,(state,action)=>{
@@ -285,7 +285,7 @@ const authSlice = createSlice({
             state.isLoggedIn= true
             state.user=action.payload
             toast.success("User Updated!")
-            console.log( action.payload)
+            // console.log( action.payload)
             
         })
         .addCase(updateUser.rejected,(state,action)=>{
@@ -306,7 +306,7 @@ const authSlice = createSlice({
             state.isLoggedIn= true
             state.user=action.payload
             toast.success("User Photo Updated!")
-            console.log( action.payload)
+            // console.log( action.payload)
             
         })
         .addCase(updatePhoto.rejected,(state,action)=>{

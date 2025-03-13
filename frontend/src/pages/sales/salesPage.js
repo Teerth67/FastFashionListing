@@ -44,7 +44,7 @@ const SalesPage = () => {
 
   const fetchNextPage = useCallback(() => {
     if (status === "loading" || !hasMore) return;
-    console.log(`Fetching next page: ${page}, sale=true, sort=${sort}`);
+    // console.log(`Fetching next page: ${page}, sale=true, sort=${sort}`);
     dispatch(fetchProductsByCollection({ sale: true, page, sort }));
   }, [status, dispatch, page, hasMore, sort]);
 

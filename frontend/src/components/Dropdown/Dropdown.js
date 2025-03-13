@@ -20,7 +20,7 @@ const menuItems = [
       { name: "Six5Six", path: "/collections/Six5Six" },
       { name: "Drip Project", path: "/collections/DripProject" },
       { name: "Bluer", path: "/collections/Bluer" },
-      {name:"Crayyheads",path:"/collections/Crayyheads"},
+      
       { name: "Bomaachi", path: "/collections/Bomaachi" },
       { name: "Blck Orchid", path: "/collections/BlckOrchid" },
       { name: "Future Saints", path: "/collections/FutureSaints" },

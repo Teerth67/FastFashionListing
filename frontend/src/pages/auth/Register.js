@@ -65,7 +65,7 @@ const Register = ({ isModalOpen, closeModal, switchToLogin }) => {
         toast.error("Registration failed - no token received");
       }
     } catch (error) {
-      console.log("Registration error:", error);
+      // console.log("Registration error:", error);
       
       // Check if it's a rejected action with a payload
       if (error.name === 'RejectWithValue' || error.status === 400) {       toast.error("Email is already registered. Please login instead.");

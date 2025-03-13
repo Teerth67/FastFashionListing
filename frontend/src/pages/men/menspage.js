@@ -32,7 +32,7 @@ const MensCollection = () => {
       // Update refs
       prevGenderRef.current = gender;
       
-      console.log(`Fetching men's products: gender=${gender}, initialLoad=${!initialLoadDone}`);
+      // console.log(`Fetching men's products: gender=${gender}, initialLoad=${!initialLoadDone}`);
       
       dispatch(resetProducts());
       if (!sort) dispatch(setSort("newest"));
@@ -48,7 +48,7 @@ const MensCollection = () => {
   useEffect(() => {
     if (initialLoadDone && prevSortRef.current !== sort && sort) {
       prevSortRef.current = sort;
-      console.log(`Sort changed to ${sort}, refetching men's products`);
+      // console.log(`Sort changed to ${sort}, refetching men's products`);
       
       dispatch(resetProducts());
       dispatch(fetchProductsByCollection({ gender, page: 1, sort }));
@@ -57,7 +57,7 @@ const MensCollection = () => {
 
   const fetchNextPage = useCallback(() => {
     if (status === "loading" || !hasMore) return;
-    console.log(`Fetching next page: ${page}, gender=${gender}, sort=${sort}`);
+    // console.log(`Fetching next page: ${page}, gender=${gender}, sort=${sort}`);
     dispatch(fetchProductsByCollection({ gender, page, sort }));
   }, [status, dispatch, page, hasMore, gender, sort]);
 

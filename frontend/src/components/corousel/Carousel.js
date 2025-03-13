@@ -25,7 +25,7 @@ import b22 from "../../assets/b22.webp"
 import b23 from "../../assets/b23.png"
 import b24 from "../../assets/b24.webp"
 import b25 from "../../assets/b25.jpg"
-
+import b26 from "../../assets/b26.png"
 const ProductCarousel=() => {
     const brands = [
     {src:b1},
@@ -54,7 +54,8 @@ const ProductCarousel=() => {
     {src:b22},
     
     {src:b24},
-    {src:b25}
+    {src:b25},
+    {src:b26}
 
 
         ];

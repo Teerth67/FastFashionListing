@@ -73,7 +73,7 @@ const getLoginStatus = async () => {
     const response = await axiosInstance.get(`${API_URL}getLoginStatus`);
     return response.data;
   } catch (error) {
-    console.error("Login status check failed:", error);
+    // console.error("Login status check failed:", error);
     
     // Handle token expiry correctly
     if (error.response && error.response.status === 401) {
