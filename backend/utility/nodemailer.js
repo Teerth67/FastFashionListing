@@ -77,7 +77,7 @@ const sendEmail = async (to, firstName) => {
 const sendVerificationEmail = async (to, name, token) => {
   const subject = "Verify Your Email - Glitch’d";
   const logoUrl = "https://glitchd.in/f_logo.png"; 
-  const verificationUrl = `http://glitchd.in:5000/newsletter/verify?token=${token}`;
+  const verificationUrl = `${process.env.BACKEND_API}/newsletter/verify?token=${token}`;
 
   const htmlContent = `
   <div style="font-family: Arial, sans-serif; max-width: 600px; margin: auto; padding: 20px; border-radius: 10px; background: #000; color: #fff;">

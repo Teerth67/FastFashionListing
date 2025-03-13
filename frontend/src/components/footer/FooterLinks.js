@@ -63,7 +63,7 @@ const FooterLinks = () => {
     setMessage("");
 
     try {
-      const response = await fetch("http://glitchd.in:5000/newsletter/subscribe", {
+      const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/newsletter/subscribe`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
