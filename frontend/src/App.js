@@ -31,21 +31,21 @@ import Disclaimer from "./pages/legal/Disclaimer";
 const AppContent = () => {
   const dispatch = useDispatch();
   const location = useLocation();
-  useEffect(() => {
-    const script1 = document.createElement("script");
-    script1.async = true;
-    script1.src = "https://www.googletagmanager.com/gtag/js?id=G-88BG2J1T6Y";
-    document.head.appendChild(script1);
+  // useEffect(() => {
+  //   const script1 = document.createElement("script");
+  //   script1.async = true;
+  //   script1.src = "https://www.googletagmanager.com/gtag/js?id=G-88BG2J1T6Y";
+  //   document.head.appendChild(script1);
 
-    const script2 = document.createElement("script");
-    script2.innerHTML = `
-      window.dataLayer = window.dataLayer || [];
-      function gtag(){dataLayer.push(arguments);}
-      gtag('js', new Date());
-      gtag('config', 'G-88BG2J1T6Y');
-    `;
-    document.head.appendChild(script2);
-  }, []);
+  //   const script2 = document.createElement("script");
+  //   script2.innerHTML = `
+  //     window.dataLayer = window.dataLayer || [];
+  //     function gtag(){dataLayer.push(arguments);}
+  //     gtag('js', new Date());
+  //     gtag('config', 'G-88BG2J1T6Y');
+  //   `;
+  //   document.head.appendChild(script2);
+  // }, []);
   // Save last visited page
   useEffect(() => {
     const currentPath = location.pathname;
