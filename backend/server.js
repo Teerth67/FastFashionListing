@@ -25,9 +25,9 @@ const allowedOrigins = [
   "https://3.111.9.37:80", // Your domain with port
  "https://3.111.9.37", // Server IP
  "https://glitchd.in",
-// "http://localhost:3000",
+"http://localhost:3000",
 
-// "http://127.0.0.1:3000"
+"http://127.0.0.1:3000"
 ];
   
 

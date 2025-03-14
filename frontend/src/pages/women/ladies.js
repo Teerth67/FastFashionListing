@@ -34,8 +34,8 @@ const MensCollection = () => {
       
      
       dispatch(resetProducts());
-      if (!sort) dispatch(setSort("newest"));
-      dispatch(fetchProductsByCollection({ gender, page: 1, sort: sort || "newest" }));
+      if (!sort) dispatch(setSort("priceLowHigh"));
+      dispatch(fetchProductsByCollection({ gender, page: 1, sort: sort || "priceLowHigh" }));
       
       if (!initialLoadDone) {
         setInitialLoadDone(true);
