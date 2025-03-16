@@ -7,7 +7,7 @@ export const fetchProductsApi = async ({
   sale = false,
   page = 1,
   limit = 10,
-  sort = "priceLowHigh", // Default sort option
+  sort = "newest", // Default sort option
 }) => {
   let endpoint = `/products?page=${page}&limit=${limit}&sort=${sort}`;
 

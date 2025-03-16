@@ -9,7 +9,7 @@ const initialState = {
   page: 1,
   hasMore: true,
   lastFetchedParams: null,
-  sort: "priceLowHigh", // ✅ Add sorting state
+  sort: "newest", // ✅ Add sorting state
 };
 
 const productSlice = createSlice({
