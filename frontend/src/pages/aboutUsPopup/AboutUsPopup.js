@@ -33,24 +33,21 @@ const AboutUsPopup = () => {
         </div>
         <div className={styles.content}>
           <h2 className={styles.title}>GLITCH'D</h2>
-          
+
+          <p className={styles.tagline}>The Only Fashion Destination Made For <span className={styles.highlight}>Gen Z</span>, By <span className={styles.highlight}>Gen Z</span>.</p>
+
           <p className={styles.mainText}>
-            Welcome to GLITCH'D—where the rules of fashion are rewritten, and self-expression knows no limits. We're more than a brand; we're a movement. A rebellion against the ordinary. A space where the bold, the creative, and the unapologetically unique find their fit.
+            We <span>list and compare</span> all the hottest Gen Z fashion brands in <strong>one place</strong>. Browse listings from streetwear icons like <strong>Jaywalkings</strong> and <strong>AlmostGods</strong> to trending fast fashion from <strong>H&M</strong>, <strong>It Girl</strong>, <strong>Outcasts</strong> and many more—everything Gen Z loves, all <span>without switching between sites</span>.
           </p>
-          
-          <div className={styles.section}>
-            <p>The Movement</p>
-            <p>Founded in 2025, GLITCH'D was born from a desire to disrupt fast fashion. We're here to blur the lines between trends and individuality—because style isn't about fitting in; it's about standing out. No limits. No labels. Just raw, unfiltered expression.</p>
-          </div>
-          
-          <div className={styles.section}>
-            <p>Our Vision</p>
-            <p>From underground aesthetics to viral drops, our collections are designed to keep you ahead of the curve. Bold statements. Unfiltered attitude. A global community. A future-forward mindset. Inclusive vibes. Exclusive styles. That's the movement. That's the future.</p>
-          </div>
-          
-          <p className={styles.outro}>
-            JOIN THE MOVEMENT. STAY UNFILTERED. STAY GLITCH'D.
-          </p>
+
+          <ul className={styles.list}>
+            <li className={styles.featured}><span className={styles.highlight}>One-stop shop.</span> Zero hassle. Just <span className={styles.highlight}>pure fashion</span>.</li>
+            <li>No more <span className={styles.highlight}>endless scrolling</span> for brands.</li>
+            <li>We bring the <span className={styles.highlight}>best</span>, you make the <span className={styles.highlight}>statement</span>.</li>
+            <li><span className={styles.highlight}>All your favorite brands</span>, all in <strong>one place</strong>.</li>
+          </ul>
+
+          <p className={styles.outro}>DISCOVER YOUR STYLE. START NOW.</p>
         </div>
       </div>
     </div>
