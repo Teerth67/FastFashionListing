@@ -11,6 +11,7 @@ import SplashScreen from "../splashScreen/splashScreen";
 import { useNavigate } from "react-router-dom";
 import StreetWearCards from "../../components/productCard/streetwearCardSlider"; // Import the new component
 import CasualCards from "../../components/productCard/casualCard"
+import SaleCards from "../../components/productCard/salesslider"
 const PageHeading = ({ heading, btnText }) => {
   return (
     <>
@@ -81,6 +82,7 @@ const Home = () => {
               <ProductCarousel products={productsList} />
             </div>
           </section>
+          <SaleCards/>
  <StreetWearCards />
  <CasualCards/>
           <ParallaxSection />
