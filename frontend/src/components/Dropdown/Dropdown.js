@@ -9,7 +9,7 @@ const menuItems = [
     subcategories: [
       { name: "Jaywalking", path: "/collections/Jaywalking" },
       { name: "Veloce", path: "/collections/Veloce" },
-
+      { name: "Crayyheads", path: "/collections/Crayyheads" },
       { name: "Huemn", path: "/collections/huemn" },
       { name: "Almost Gods", path: "/collections/AlmostGods" },
       { name: "TurntUp", path: "/collections/TurntUp" },

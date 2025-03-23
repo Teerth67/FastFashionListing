@@ -36,6 +36,7 @@ const brandNameMapping = {
   "Evemen":"Evemen",
   "DeadBear":"Deadbear",
   "Genrage":"Genrage",
+  "Crayyheads":"Crayyheads",
   "themerche":"themerche",
   "Beeglee":"Beeglee",
 };

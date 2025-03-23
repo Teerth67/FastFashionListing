@@ -9,7 +9,7 @@ import b5 from "../../assets/b5.png"
 import b6 from "../../assets/b6.jpeg"
 import b7 from "../../assets/b7.jpeg"
 import b8 from "../../assets/b8.jpg"
-// import b9 from "../../assets/b9.png"
+import b9 from "../../assets/b9.png"
 import b10 from "../../assets/b10.png"
 import b11 from "../../assets/b11.jpg"
 import b12 from "../../assets/b12.png"
@@ -44,7 +44,7 @@ const ProductCarousel=() => {
     {src:b21},
 
     {src:b8},
-    // {src:b9},
+    {src:b9},
     {src:b20},
     {src:b10},
     {src:b23},
