@@ -60,7 +60,7 @@
   box-sizing: border-box;
   overflow: hidden;
   box-shadow: 0 20px 50px rgb(0,0,0);
-  z-index: 5; // Ensure content appears above images
+  z-index: 10; // Ensure content appears above images
   
   h2 {
     font-size: 4.5rem;
@@ -113,6 +113,7 @@
   height: 100%;
   display: block;
   box-sizing: border-box;
+  pointer-events: none;
 }
 
 .content .span1:before {
@@ -124,6 +125,7 @@
   height: 2px;
   background: #50dfdb;
   animation: span1 3s linear infinite;
+  pointer-events: none;
 }
 .content .span2:before {
   content: "";
@@ -248,22 +250,25 @@ hr {
   }
 }
 
-.btn {
-  background-color: #333;
-  color: #fff;
-  padding: 10px 20px;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-  transition: background 0.3s ease, color 0.3s ease;
-  
-  @media screen and (max-width: 430px) {
-    padding: 6px 14px;
-    font-size: 0.8rem;
-  }
-}
+.shop-button {
+  background-color: transparent!important;
+  //border: 1px solid #fff !important;
+  padding: 12px 30px !important;
+  font-weight: 600 !important;
+  letter-spacing: 1px !important;
+  transition: all 0.3s ease !important;
+  position: relative;
+  z-index: 20;
+  font-family: Poppins;
 
-.btn:hover {
-  background-color: #555;
-  color: #ddd;
+  &:hover {
+    background-color: #d5d0d0 !important;
+    color: #000 !important;
+    //border-color: #000 !important;
+  }
+
+  @media screen and (max-width: 768px) {
+    padding: 8px 20px !important;
+    font-size: 0.9rem !important;
+  }
 }

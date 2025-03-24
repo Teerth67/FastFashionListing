@@ -107,6 +107,10 @@ router.use("/products/search", (req, res, next) => {
   }
   return guestRateLimiter(req, res, next);
 });
+// router.get("/filter-options", (req, res) => {
+//   console.log("Filter options request received");
+//   proxyRequest(req, res, "/products/filter-options");
+// });
 // ✅ Allow login & register without JWT
 router.post("/users/login", (req, res) => proxyRequest(req, res, "/users/login"));
 router.post("/users/register", (req, res) => proxyRequest(req, res, "/users/register"));

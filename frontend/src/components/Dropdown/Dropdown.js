@@ -143,7 +143,7 @@ const DropdownMenu = ({ isMobileOpen }) => {
 
   useEffect(() => {
     const handleResize = () => {
-      setIsMobile(window.innerWidth <= 820);
+      setIsMobile(window.innerWidth <= 1024);
     };
 
     handleResize();

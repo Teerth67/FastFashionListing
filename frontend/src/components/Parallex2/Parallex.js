@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import {useRef, useEffect, useState } from 'react';
 import styles from './Parallex.module.scss';
 
 import dummy2 from '../../assets/d2.webp'
@@ -6,10 +6,16 @@ import OptimizedImage from '../optimizeImage/optimizeImage';
 const ParallaxSection2 = () => {
   const [scrollPosition, setScrollPosition] = useState(0);
   const [isMobile, setIsMobile] = useState(false);
-
+  const [sectionPosition, setSectionPosition] = useState(0);
+  const sectionRef = useRef(null);
   useEffect(() => {
     const handleScroll = () => {
       setScrollPosition(window.scrollY);
+      if (sectionRef.current) {
+        // Get the section's position relative to the viewport
+        const rect = sectionRef.current.getBoundingClientRect();
+        setSectionPosition(rect.top);
+      }
     };
 
     const handleResize = () => {
@@ -38,7 +44,7 @@ const ParallaxSection2 = () => {
   }
 
   return (
-    <div className={styles['parallax-container']}>
+    <div className={styles['parallax-container']} ref={sectionRef}>
       <div className={styles['sticky-container']}>
         <div className={styles['parallax-section']}>
           {/* Right Section */}
@@ -69,8 +75,9 @@ const ParallaxSection2 = () => {
               alt="Product Image"
               className={styles['parallax-image']}
               style={{
-                transform: `translateY(${initialOffset + scrollPosition * 0.3}px)`
-              }}
+                transform: sectionPosition < window.innerHeight && sectionPosition > -window.innerHeight 
+                ? `translateY(${(window.innerHeight - sectionPosition) * 0.3}px)`
+                : 'translateY(0)'              }}
             />
           </div>
         </div>

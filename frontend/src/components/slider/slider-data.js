@@ -3,31 +3,35 @@ import s2 from '../../assets/ss2.webp'
 import s3 from '../../assets/ss3.webp'
 import s4 from '../../assets/ss4.webp'
 import s5 from '../../assets/ss5.webp'
-
 export const sliderData = [
-    {
-      image: s1,
-      heading: "GLITCH THE SYSTEM",
-      desc: "Fashion so wrong, it's right!!",
-    },
-    {
-      image: s2,
-       heading: "DARE TO BE THE EXCEPTION!!",
-      desc: "No Limits. No Labels. Just You.",
-    },
-    {
-      image: s3,
-        heading: "DEFY GRAVITY",
-      desc: "Where fashion meets fearless expression.",
-    },
-    {
-      image: s4,
-          heading: "VISION//DISRUPTED",
-      desc: "Kill the algorithm. Wear the glitch.",
-    },
-    {
-      image: s5,
-         heading: "FASHION IS DEAD. RESURRECT IT.",
-      desc: "Bring the underground to the surface.",
-    },
-  ];
+  {
+    image: s1,
+    heading: "ALL COLLECTION",
+    desc: "Glitch the System!! Every Style, One Destination",
+    link: "/collections"
+  },
+  {
+    image: s2,
+    heading: "EXCLUSIVE SALE",
+    desc: "DARE TO BE THE EXCEPTION!! Limited Time Offers",
+    link: "/sale"
+  },
+  {
+    image: s4,
+    heading: "WOMEN'S COLLECTION",
+    desc: "Where Fashion Meets Fearless Expression",
+    link: "/women"
+  },
+  {
+    image: s3,
+    heading: "MEN'S COLLECTION",
+    desc: "Kill the Algorithm. Wear the Glitch.",
+    link: "/men"
+  },
+  {
+    image: s5,
+    heading: "EXCLUSIVE DROPS",
+    desc: "COMING SOON - Stay Tuned for Underground Rebellion",
+    link: "" // Empty string to remove any clickable link
+  },
+];

@@ -1,34 +1,31 @@
-import React from "react"
-import Slider from "../../components/slider/slider"
-import "./Home.scss"
-import ParallaxSection from "../../components/Parallex/Parallex"
-import HomeInfoBox from "./HomeInfoBox"
-import { productData } from "../../components/corousel/data"
-import CarouselItem from "../../components/corousel/CarouselItem"
-import ProductCarousel from "../../components/corousel/Carousel"
-import { useState ,useEffect} from "react"
-import ParallaxSection2 from "../../components/Parallex2/Parallex"
-import SplashScreen from "../splashScreen/splashScreen"
-import { useNavigate } from "react-router-dom"
-
-
-const PageHeading = ({heading, btnText}) => {
-    return (
-        <>
-         <div className="--flex-between">
-            <h2 className="--fw-thin">{heading}</h2>
-            <button className="--btn">
-                {btnText}
-            </button>
-         </div>
-         <div className="--hr"></div>
-        </>
-    )
-}
+import React, { useState, useEffect } from "react";
+import Slider from "../../components/slider/slider";
+import "./Home.scss";
+import ParallaxSection from "../../components/Parallex/Parallex";
+import HomeInfoBox from "./HomeInfoBox";
+import { productData } from "../../components/corousel/data";
+import CarouselItem from "../../components/corousel/CarouselItem";
+import ProductCarousel from "../../components/corousel/Carousel";
+import ParallaxSection2 from "../../components/Parallex2/Parallex";
+import SplashScreen from "../splashScreen/splashScreen";
+import { useNavigate } from "react-router-dom";
+import StreetWearCards from "../../components/productCard/streetwearCardSlider"; // Import the new component
+import CasualCards from "../../components/productCard/casualCard"
+import SaleCards from "../../components/productCard/salesslider"
+const PageHeading = ({ heading, btnText }) => {
+  return (
+    <>
+      <div className="--flex-between">
+        <h2 className="--fw-thin">{heading}</h2>
+        <button className="--btn">{btnText}</button>
+      </div>
+      <div className="--hr"></div>
+    </>
+  );
+};
 
 const Home = () => {
   const [isSplashVisible, setIsSplashVisible] = useState(true);
- 
   const navigate = useNavigate();
 
   // Hide splash screen and show home page
@@ -37,7 +34,7 @@ const Home = () => {
     
     // Scroll to top and reset route if reloaded
     window.scrollTo(0, 0);
-    navigate('/', { replace: true });
+    navigate("/", { replace: true });
   };
 
   useEffect(() => {
@@ -47,19 +44,24 @@ const Home = () => {
       window.scrollTo(0, 0);
       
       // Reset to home route
-      navigate('/', { replace: true });
+      navigate("/", { replace: true });
       
       // Reset splash screen state
       setIsSplashVisible(true);
     }
 
     // Prevent browser's default scroll restoration
-    window.history.scrollRestoration = 'manual';
+    window.history.scrollRestoration = "manual";
   }, [navigate]);
 
   const productsList = productData.map((item, index) => (
     <div key={index}>
-      <CarouselItem name={item.name} url={item.imageurl} price={item.price} description={item.description} />
+      <CarouselItem
+        name={item.name}
+        url={item.imageurl}
+        price={item.price}
+        description={item.description}
+      />
     </div>
   ));
 
@@ -71,14 +73,21 @@ const Home = () => {
         <div className="home-content">
           <Slider />
 
+          {/* Add the new ProductCards section here */}
+          {/* */}
+
+
           <section className="products-section">
             <div className="container">
               <ProductCarousel products={productsList} />
             </div>
           </section>
+        
+ <StreetWearCards />
 
-          <ParallaxSection />
-          <ParallaxSection2 />
+ <CasualCards/>
+ <ParallaxSection />    
+ <SaleCards/>
 
           <section className="products-section">
             <div className="container">
@@ -91,5 +100,4 @@ const Home = () => {
   );
 };
 
-
-export default Home
+export default Home;

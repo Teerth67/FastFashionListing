@@ -6,9 +6,9 @@ const getOptimizedImageUrl = (url, screenWidth) => {
 
   let imageWidth;
   if (screenWidth < 480) {
-    imageWidth = 192; // Mobile
+    imageWidth = 320; // Mobile
   } else if (screenWidth < 768) {
-    imageWidth = 256; // Small tablets
+    imageWidth = 384; // Small tablets
   } else if (screenWidth < 1024) {
     imageWidth = 384; // Large tablets & small laptops
   } else {

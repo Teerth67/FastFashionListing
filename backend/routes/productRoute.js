@@ -12,6 +12,8 @@ const {
   getProductsBySalePrice,
   getProductsBySalePriceAndGender,
   searchProducts,
+  getFilteredProducts,
+  getFilterOptions,
 } = require("../controllers/productController");
 
 const router = express.Router();
@@ -23,7 +25,8 @@ router.use((req, res, next) => {
   }
   next();
 });
-
+router.get("/filtered", getFilteredProducts); // Handles filtering by brands, categories, price, etc.
+router.get('/filter-options', getFilterOptions); 
 router.get("/search", searchProducts);
 router.get("/sale", getProductsBySalePrice);
 router.get("/", getProducts);

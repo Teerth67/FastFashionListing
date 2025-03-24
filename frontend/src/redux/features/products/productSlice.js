@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { fetchProductsByCollection } from "./productThunk";
+import { fetchProductsByCollection, fetchFilterOptions } from "./productThunk";
 
 const initialState = {
   items: [],
@@ -9,7 +9,23 @@ const initialState = {
   page: 1,
   hasMore: true,
   lastFetchedParams: null,
-  sort: "newest", // ✅ Add sorting state
+  sort: "newest",
+  // Add filter-related state
+  filters: {
+    brands: null,
+    categories: null,
+    minPrice: null,
+    maxPrice: null,
+    styles: null
+  },
+  filterOptions: {
+    brands: [],
+    categories: [],
+    styles: [],
+    priceRange: { min: 0, max: 1000 }
+  },
+  filterOptionsStatus: "idle",
+  filterOptionsError: null
 };
 
 const productSlice = createSlice({
@@ -24,10 +40,33 @@ const productSlice = createSlice({
       state.lastFetchedParams = null;
       state.error = null;
       state.status = "idle";
+      // Don't reset filters or filter options
     },
     setSort: (state, action) => {
       state.sort = action.payload;
     },
+    // Add a reducer to set filters
+    setFilters: (state, action) => {
+      state.filters = {
+        brands: action.payload.brands ?? null,
+        categories: action.payload.categories ?? null,
+        minPrice: action.payload.minPrice ?? null,
+        maxPrice: action.payload.maxPrice ?? null,
+        styles: action.payload.styles ?? null,
+      };
+      state.page = 1;
+    },
+    
+    // Add a reducer to reset filters
+    resetFilters: (state) => {
+      state.filters = {
+        brands: null,
+        categories: null,
+        minPrice: null,
+        maxPrice: null,
+        styles: null
+      };
+    }
   },
   extraReducers: (builder) => {
     builder
@@ -44,10 +83,10 @@ const productSlice = createSlice({
           state.items = action.payload.products;
           state.filteredItems = action.payload.products;
         } else {
-          // ✅ Use a Set to store unique product IDs
+          // Use a Set to store unique product IDs
           const existingIds = new Set(state.items.map(p => p._id));
           
-          // ✅ Filter out duplicates before adding new products
+          // Filter out duplicates before adding new products
           const newProducts = action.payload.products.filter(p => !existingIds.has(p._id));
           
           state.items = [...state.items, ...newProducts];
@@ -55,14 +94,27 @@ const productSlice = createSlice({
         }
     
         state.hasMore = action.payload.hasMore;
-    })
-    
+      })
       .addCase(fetchProductsByCollection.rejected, (state, action) => {
         state.status = "failed";
         state.error = action.payload;
+      })
+      // Add cases for fetchFilterOptions
+      .addCase(fetchFilterOptions.pending, (state) => {
+        state.filterOptionsStatus = "loading";
+        state.filterOptionsError = null;
+      })
+      .addCase(fetchFilterOptions.fulfilled, (state, action) => {
+        state.filterOptionsStatus = "succeeded";
+        state.filterOptions = action.payload;
+        state.filterOptionsError = null;
+      })
+      .addCase(fetchFilterOptions.rejected, (state, action) => {
+        state.filterOptionsStatus = "failed";
+        state.filterOptionsError = action.payload;
       });
   },
 });
 
-export const { resetProducts, setSort } = productSlice.actions;
+export const { resetProducts, setSort, setFilters, resetFilters } = productSlice.actions;
 export default productSlice.reducer;
