@@ -7,27 +7,36 @@ import s5 from '../../assets/ss5.webp'
 export const sliderData = [
     {
       image: s1,
-      heading: "GLITCH THE SYSTEM",
-      desc: "Fashion so wrong, it's right!!",
+      heading: "ALL COLLECTION",
+      desc: "Glitch the System!!",
+      link: "/collections"
     },
     {
       image: s2,
-       heading: "DARE TO BE THE EXCEPTION!!",
-      desc: "No Limits. No Labels. Just You.",
+       heading: "EXCLUSIVE SALE",
+      desc: "DARE TO BE THE EXCEPTION!!",
+      link: "/sale"
+
     },
     {
       image: s3,
-        heading: "DEFY GRAVITY",
+        heading: "WOMEN'S COLLECTION",
       desc: "Where fashion meets fearless expression.",
+      link: "/women"
+
     },
     {
       image: s4,
-          heading: "VISION//DISRUPTED",
+          heading: "MEN'S COLLECTION",
       desc: "Kill the algorithm. Wear the glitch.",
+      link: "/men"
+
     },
     {
       image: s5,
-         heading: "FASHION IS DEAD. RESURRECT IT.",
+         heading: "EXLUSIVE DROPS",
       desc: "Bring the underground to the surface.",
+      link: "/collections/Crayyheads"
+
     },
   ];

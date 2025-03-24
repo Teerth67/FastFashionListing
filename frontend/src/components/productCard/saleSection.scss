@@ -78,36 +78,34 @@
     }
   }
   
-  /* Improved slider container to handle responsive behavior */
   .product-slider-container {
     position: relative;
     overflow: hidden;
-    margin: 0 -0.5rem; /* Negative margin to align with container */
-    padding: 0 0.5rem; /* Padding to prevent items from touching edge */
+    margin: 0 -0.5rem;
+    padding: 0 0.5rem;
   }
   
   .product-slider {
     display: flex;
     gap: 1rem;
     padding-bottom: 1rem;
-    /* Remove scrollbar styling as we're using transform instead */
     width: 100%;
-    will-change: transform; /* Performance optimization for animation */
+    will-change: transform; /* performance optimization */
     
     &::-webkit-scrollbar {
       display: none;
     }
   }
   
+  /* ---------------------------
+     Card Layout / Responsive
+     --------------------------- */
   .product-card {
+    /* Desktop: 4 cards in a row */
     flex: 0 0 calc(25% - 1rem);
     min-width: 220px;
     color: inherit;
     position: relative;
-    
-    &.skeleton {
-      pointer-events: none;
-    }
     
     .product-link-wrapper {
       text-decoration: none;
@@ -115,25 +113,21 @@
       display: block;
     }
     
+    /* Tablet: 3 cards in a row */
     @media (max-width: 1024px) {
       flex: 0 0 calc(33.333% - 1rem);
     }
     
+    /* Phones: 2 cards in a row (both <=768px and <=480px) */
     @media (max-width: 768px) {
       flex: 0 0 calc(50% - 1rem);
-    }
-    
-    @media (max-width: 480px) {
-      flex: 0 0 calc(100% - 1rem);
-      /* Ensure single items are centered on mobile */
-      margin: 0 auto;
     }
   }
   
   .product-image-container {
     position: relative;
     overflow: hidden;
-    aspect-ratio: 3/4;
+    aspect-ratio: 3 / 4;
     background: #f8f8f8;
     
     .product-image {
@@ -141,11 +135,6 @@
       height: 100%;
       object-fit: cover;
       object-position: center;
-      transition: transform 0.3s ease;
-    }
-    
-    &:hover .product-image {
-      transform: scale(1.05);
     }
     
     .sale-badge {
@@ -164,7 +153,7 @@
     .wishlist-button {
       position: absolute;
       top: 1rem;
-      right: 1rem;
+      left: 1rem;
       background: rgba(255, 255, 255, 0.9);
       border: none;
       border-radius: 50%;
@@ -210,20 +199,16 @@
       text-align: center;
     }
     
-    .product-overlay {
+    /* New overlay that's always visible */
+    .product-info-overlay {
       position: absolute;
-      bottom: -100%;
+      bottom: 0;
       left: 0;
       width: 100%;
       background-color: rgba(0, 0, 0, 0.7);
       color: white;
       padding: 1rem;
-      transition: bottom 0.3s ease;
       z-index: 1;
-      
-      &.active {
-        bottom: 0;
-      }
       
       .product-content {
         .product-category {
@@ -244,7 +229,7 @@
         }
         
         .product-price {
-          margin-bottom: 0.5rem;
+          margin-bottom: 0;
           
           .original-price {
             text-decoration: line-through;
@@ -263,81 +248,11 @@
             font-size: 1.05rem;
           }
         }
-        
-        .product-cta {
-          display: inline-block;
-          margin-top: 0.5rem;
-          font-size: 0.85rem;
-          font-weight: 600;
-          border-bottom: 1px solid white;
-          padding-bottom: 2px;
-          letter-spacing: 0.1em;
-        }
       }
     }
   }
   
-  .product-info {
-    padding: 1rem 0;
-    
-    .product-title {
-      font-size: 1.1rem;
-      font-weight: 600;
-      margin: 0 0 0.4rem;
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
-      letter-spacing: 0.01em;
-    }
-    
-    .product-source {
-      font-size: 0.85rem;
-      color: #666;
-      margin-bottom: 0.5rem;
-    }
-    
-    .product-price {
-      .original-price {
-        text-decoration: line-through;
-        color: #999;
-        margin-right: 0.5rem;
-        font-size: 0.9rem;
-      }
-      
-      .sale-price {
-        font-weight: 700;
-        color: #ff3e3e;
-        font-size: 1.05rem;
-      }
-      
-      .regular-price {
-        font-weight: 700;
-        font-size: 1.05rem;
-      }
-    }
-    
-    .product-actions {
-      margin-top: 0.7rem;
-      
-      .product-link {
-        display: inline-block;
-        font-size: 0.85rem;
-        text-decoration: none;
-        color: #333;
-        font-weight: 500;
-        border-bottom: 1px solid #333;
-        transition: all 0.2s;
-        letter-spacing: 0.05em;
-        
-        &:hover {
-          color: #ff3e3e;
-          border-bottom-color: #ff3e3e;
-        }
-      }
-    }
-  }
-  
-  /* Responsive adjustments */
+  /* Responsive adjustments for mobile devices */
   @media (max-width: 768px) {
     .product-card {
       .product-image-container {
@@ -350,36 +265,29 @@
             height: 1rem;
           }
         }
-      }
-      
-      .product-info {
-        padding: 0.8rem 0;
         
-        .product-title {
-          font-size: 1rem;
-          margin-bottom: 0.3rem;
-        }
-        
-        .product-source {
-          font-size: 0.8rem;
-          margin-bottom: 0.4rem;
-        }
-        
-        .product-price {
-          .sale-price, .regular-price {
-            font-size: 1rem;
-          }
+        .product-info-overlay {
+          padding: 0.7rem;
           
-          .original-price {
-            font-size: 0.85rem;
-          }
-        }
-        
-        .product-actions {
-          margin-top: 0.5rem;
-          
-          .product-link {
-            font-size: 0.8rem;
+          .product-content {
+            .product-category {
+              font-size: 0.7rem;
+            }
+            
+            .product-title {
+              font-size: 0.9rem;
+              margin: 0.2rem 0;
+            }
+            
+            .product-price {
+              .sale-price, .regular-price {
+                font-size: 0.9rem;
+              }
+              
+              .original-price {
+                font-size: 0.75rem;
+              }
+            }
           }
         }
       }
@@ -421,31 +329,6 @@
       background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
       background-size: 200% 100%;
       animation: shimmer 1.5s infinite;
-    }
-    
-    .skeleton-details {
-      position: absolute;
-      bottom: 0;
-      left: 0;
-      width: 100%;
-      padding: 1rem;
-      
-      .skeleton-title {
-        height: 0.8rem;
-        width: 70%;
-        background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
-        background-size: 200% 100%;
-        animation: shimmer 1.5s infinite;
-        margin-bottom: 0.5rem;
-      }
-      
-      .skeleton-price {
-        height: 0.8rem;
-        width: 40%;
-        background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
-        background-size: 200% 100%;
-        animation: shimmer 1.5s infinite;
-      }
     }
   }
   
