@@ -1,147 +1,156 @@
-import { useRef, useEffect, useState } from 'react';
+import React, { useRef, useState, useEffect } from 'react';
+import { motion } from 'framer-motion';
 import styles from './Parallex.module.scss';
-import p1 from '../../assets/pp1_c.webp';
+
+// Import your image - replace with your actual image path
+import heroImage from '../../assets/pp1_c.webp';
 
 const ParallaxSection = () => {
-  const [isVisible, setIsVisible] = useState(false);
+  const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
+  const [orientation, setOrientation] = useState({ x: 0, y: 0 });
   const [isMobile, setIsMobile] = useState(false);
-  const [scrollProgress, setScrollProgress] = useState(0);
-  const sectionRef = useRef(null);
-  const imageRef = useRef(null);
-  const revealContainerRef = useRef(null);
-  
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      if (isVisible && scrollProgress > 0.5) {
-        setScrollProgress(1);
-        if (revealContainerRef.current) {
-          revealContainerRef.current.style.clipPath = 'inset(0% 0 0 0)';
-        }
-      }
-    }, 800);
-    
-    return () => clearTimeout(timer);
-  }, [isVisible, scrollProgress]);
+  const containerRef = useRef(null);
 
-  useEffect(() => {
-    const handleScroll = () => {
-      if (sectionRef.current) {
-        const rect = sectionRef.current.getBoundingClientRect();
-        const isNowVisible = rect.top < window.innerHeight && rect.bottom > 0;
-        setIsVisible(isNowVisible);
-        
-        if (isNowVisible) {
-          const viewportHeight = window.innerHeight;
-          const sectionHeight = rect.height;
-          
-          let progress = (viewportHeight - rect.top) / (viewportHeight + sectionHeight/4);
-          progress = Math.max(0, Math.min(1, progress * 1.3));
-          
-          if (progress > 0.7) {
-            progress = 1;
-          }
-          
-          setScrollProgress(progress);
-          
-          if (!isMobile && imageRef.current) {
-            imageRef.current.style.transform = `scale(${1 + progress * 0.1})`;
-            imageRef.current.style.opacity = Math.min(0.3 + progress * 0.8, 1);
-          }
-          
-          if (revealContainerRef.current) {
-            revealContainerRef.current.style.clipPath = `inset(${Math.max(0, 100 - progress * 110)}% 0 0 0)`;
-          }
-        }
-      }
-    };
-   
-    const handleResize = () => {
-      setIsMobile(window.innerWidth <= 820);
-    };
-    
-    handleResize();
-    handleScroll();
-
-    window.addEventListener('scroll', handleScroll);
-    window.addEventListener('resize', handleResize);
-    
-    return () => {
-      window.removeEventListener('scroll', handleScroll);
-      window.removeEventListener('resize', handleResize);
-    };
-  }, [isMobile]);
-
-  useEffect(() => {
-    if (sectionRef.current) {
-      const rect = sectionRef.current.getBoundingClientRect();
-      if (rect.top < window.innerHeight * 0.5) {
-        setIsVisible(true);
-        setScrollProgress(1);
-        if (revealContainerRef.current) {
-          revealContainerRef.current.style.clipPath = 'inset(0% 0 0 0)';
-        }
-      }
+  // Desktop mouse move handler
+  const handleMouseMove = (e) => {
+    if (containerRef.current && !isMobile) {
+      const rect = containerRef.current.getBoundingClientRect();
+      setMousePosition({
+        x: (e.clientX - rect.left) / rect.width - 0.5,
+        y: (e.clientY - rect.top) / rect.height - 0.5
+      });
     }
+  };
+
+  // Mobile device orientation handler
+  const handleOrientation = (e) => {
+    if (isMobile) {
+      // Normalize beta (front/back tilt) and gamma (left/right tilt)
+      const normalizedBeta = Math.max(Math.min(e.beta, 30), -30) / 30;
+      const normalizedGamma = Math.max(Math.min(e.gamma, 30), -30) / 30;
+      
+      setOrientation({
+        x: normalizedGamma,
+        y: normalizedBeta
+      });
+    }
+  };
+
+  // Touch interaction handler for mobile
+  const handleTouch = (e) => {
+    if (isMobile && containerRef.current) {
+      const rect = containerRef.current.getBoundingClientRect();
+      const touch = e.touches[0];
+      
+      setMousePosition({
+        x: (touch.clientX - rect.left) / rect.width - 0.5,
+        y: (touch.clientY - rect.top) / rect.height - 0.5
+      });
+    }
+  };
+
+  // Check for mobile device
+  useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth <= 768);
+    };
+
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+
+    // Add device orientation listener for mobile
+    if (window.DeviceOrientationEvent) {
+      window.addEventListener('deviceorientation', handleOrientation);
+    }
+
+    return () => {
+      window.removeEventListener('resize', checkMobile);
+      window.removeEventListener('deviceorientation', handleOrientation);
+    };
   }, []);
 
+  // Determine transform based on device type
+  const getTransform = () => {
+    if (isMobile) {
+      // For mobile, use device orientation
+      return `
+        perspective(1000px) 
+        translateX(${orientation.x * 30}px) 
+        translateY(${orientation.y * 30}px)
+        rotateX(${orientation.y * 15}deg)
+        rotateY(${-orientation.x * 15}deg)
+      `;
+    } else {
+      // For desktop, use mouse position
+      return `
+        perspective(1000px) 
+        translateX(${mousePosition.x * 20}px) 
+        translateY(${mousePosition.y * 20}px)
+        rotateX(${mousePosition.y * 10}deg)
+        rotateY(${-mousePosition.x * 10}deg)
+      `;
+    }
+  };
+
   return (
-    <div 
-      className={styles['parallax-container']} 
-      ref={sectionRef}
-      style={{ position: 'relative', zIndex: 1 }}
+    <motion.div 
+      ref={containerRef}
+      className={styles['enhanced-parallax-container']}
+      onMouseMove={handleMouseMove}
+      onTouchMove={handleTouch}
     >
-         {isMobile ? (
-        <div className={styles['mobile-card']}>
+      <div className={styles['parallax-content']}>
+        <div 
+          className={styles['image-wrapper']}
+          style={{
+            transform: getTransform()
+          }}
+        >
           <img
-            src={p1}
-            alt="Men's Collection"
-            className={styles['mobile-image']}
+            src={heroImage}
+            alt="Hero Collection"
+            className={styles['hero-image']}
           />
-          <div className={styles['card-overlay']}>
-            <div className={styles['card-content']}>
-              <h2 className={styles['card-title']}>Men's Collection</h2>
-              <a href="/men" className={styles['card-button']}>Shop Now</a>
-            </div>
-          </div>
         </div>
-      ) : (
-        <div className={styles['parallax-wrapper']}>
-          <div className={styles['background-placeholder']}></div>
-          <div 
-            ref={revealContainerRef} 
-            className={styles['reveal-container']}
-          >
-            <img
-              ref={imageRef}
-              src={p1}
-              alt="Product Image"
-              className={styles['reveal-image']}
-              style={{ opacity: 1 }}
-            />
-          </div>
-          
-          <div className={styles['overlay-content']}>
-            <div 
-              className={`${styles['content-wrapper']} ${isVisible ? styles['fade-in'] : ''}`}
-              style={{ 
-                opacity: Math.min(scrollProgress * 2, 1),
-                transform: `translateY(${(1 - scrollProgress) * 30}px)`
-              }}
+
+        <div className={styles['overlay-content']}>
+          <div className={styles['content-inner']}>
+            <motion.span 
+              className={styles['label']}
+              initial={{ opacity: 0, x: -50 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ delay: 0.2, duration: 0.5 }}
             >
-              <div className={styles['overlay-label']}>
-                Homegrown Brand
-              </div>
-              <h2 className={styles['product-title']}>
-                Men's Collection
-              </h2>
-              <a href="/men" className={styles['product-button']}>
-                Shop Now
-              </a>
-            </div>
+              Exclusive Collection
+            </motion.span>
+            
+            <motion.h2 
+              className={styles['title']}
+              initial={{ opacity: 0, scale: 0.8 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ delay: 0.3, duration: 0.5 }}
+            >
+              Men's Premium Line
+            </motion.h2>
+            
+            <motion.a 
+              href="/men" 
+              className={styles['cta-button']}
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.4, duration: 0.5 }}
+              whileHover={{ 
+                scale: 1.05,
+                transition: { duration: 0.2 }
+              }}
+              whileTap={{ scale: 0.95 }}
+            >
+              Explore Collection
+            </motion.a>
           </div>
         </div>
-      )}
-    </div>
+      </div>
+    </motion.div>
   );
 };
 
