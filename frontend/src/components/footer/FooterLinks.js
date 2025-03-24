@@ -110,7 +110,7 @@ const FooterLinks = () => {
           <div className="newsletter-form">
           {!showInput ? (
   <button className="btn btn-dark" onClick={toggleSubscribeForm}>
-    Get Underground Updates
+   Subscribe Now
   </button>
 ) : (
   <form onSubmit={handleSubscribe} className="subscribe-form">

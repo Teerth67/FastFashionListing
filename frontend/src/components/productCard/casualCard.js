@@ -6,6 +6,7 @@ import b3 from "../../assets/it.webp"
 import b4 from "../../assets/bluer.webp"
 import b5 from "../../assets/dap.webp"
 import b6 from "../../assets/bee.webp"
+import b7 from "../../assets/merche.webp"
 const CasualWearBrands = () => {
   const [hoverIndex, setHoverIndex] = useState(null);
   const [showAll, setShowAll] = useState(false);
@@ -16,7 +17,8 @@ const CasualWearBrands = () => {
     { id: 3, title: "It Girl", category: "Contemporary Casual", image: b3, link: "/collections/ItGirl" },
     { id: 4, title: "Bluer", category: "Minimalist Casual", image:b4, link: "/collections/Bluer" },
     { id: 5, title: "The Dapper Lady", category: "Elegant Casual", image: b5, link: "/collections/DappingLady" },
-    { id: 6, title: "Beegle", category: "Playful Casual", image: b6, link: "/collections/Beegle" }
+    { id: 6, title: "Beegle", category: "Playful Casual", image: b6, link: "/collections/Beeglee" },
+    {id:7,title:"Merche",category:"Contemporary Casual",image:b7,link:"/collections/themerche"}
   ];
 
   const visibleBrands = showAll ? casualBrands : casualBrands.slice(0, 3);

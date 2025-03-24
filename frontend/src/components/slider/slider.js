@@ -37,7 +37,7 @@ const Slider = () => {
     return (
         <div className="slider">
             {sliderData.map((slide, index) => {
-                const {image, heading, desc} = slide
+                const {image, heading, desc, link} = slide
 
                return (
                 <div key={index} className={index === currentSlide ? "slide current" : "slide"}>
@@ -54,14 +54,16 @@ const Slider = () => {
                         <span className="span3"></span>
                         <span className="span4"></span>
                         <h2>{heading}</h2>
-                        <p>{desc}</p>
+                        {desc && <p>{desc}</p>}
                         <hr />
-                        <button 
-  className='--btn --btn-primary shop-button' 
-  onClick={() => navigate(slide.link)} // Use individual link
->
-  Shop Now
-</button>
+                        {link && (
+                            <button 
+                                className='--btn --btn-primary shop-button' 
+                                onClick={() => navigate(link)}
+                            >
+                                {slide.heading === "EXCLUSIVE DROPS" ? "" : "Explore Now"}
+                            </button>
+                        )}
                        </div>
                        </>
                     )}
