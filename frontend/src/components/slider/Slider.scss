@@ -251,19 +251,20 @@ hr {
 }
 
 .shop-button {
-  background-color: #000 !important;
-  border: 1px solid #fff !important;
+  background-color: transparent!important;
+  //border: 1px solid #fff !important;
   padding: 12px 30px !important;
   font-weight: 600 !important;
   letter-spacing: 1px !important;
   transition: all 0.3s ease !important;
   position: relative;
   z-index: 20;
+  font-family: Poppins;
 
   &:hover {
-    background-color: #fff !important;
+    background-color: #d5d0d0 !important;
     color: #000 !important;
-    border-color: #000 !important;
+    //border-color: #000 !important;
   }
 
   @media screen and (max-width: 768px) {

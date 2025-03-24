@@ -116,13 +116,13 @@ const SaleSection = () => {
 
     return (
       <article className="product-card">
-        <Link to={`/product/${product._id}`} className="product-link-wrapper">
-          <div className="product-image-container">
-            <OptimizedImage
-              src={product.image}
-              alt={product.title || "Product Image"}
-              className="product-image"
-            />
+         <a href={product.link} target="_blank" rel="noopener noreferrer" className="product-link-wrapper">
+        <div className="product-image-container">
+          <OptimizedImage
+            src={product.image}
+            alt={product.title || "Product Image"}
+            className="product-image"
+          />
             {product.salePrice && product.price && (
               <span className="sale-badge">
                 {Math.round(
@@ -163,7 +163,7 @@ const SaleSection = () => {
               </div>
             </div>
           </div>
-        </Link>
+        </a>
       </article>
     );
   };

@@ -82,11 +82,12 @@ const Home = () => {
               <ProductCarousel products={productsList} />
             </div>
           </section>
-          <SaleCards/>
+        
  <StreetWearCards />
+
  <CasualCards/>
-          <ParallaxSection />
-          
+ <ParallaxSection />    
+ <SaleCards/>
 
           <section className="products-section">
             <div className="container">

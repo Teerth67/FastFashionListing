@@ -1,32 +1,48 @@
 import React, { useState } from "react";
 import "./streetwearCard.scss";
-
+import b1 from "../../assets/jay.webp"
+import b2 from "../../assets/huemn.webp"
+import b3 from "../../assets/almost.webp"
+import b4 from "../../assets/turnt.webp"
+import b5 from "../../assets/blu.webp"
+import b6 from "../../assets/biskit.webp"
+import b7 from "../../assets/drip.jpeg"
+import b8 from "../../assets/bomac.webp"
+import b9 from "../../assets/blck.webp"
+import b10 from "../../assets/eve.webp"
+import b11 from "../../assets/future.webp"
+import b12 from "../../assets/gen.webp"
+import b13 from "../../assets/wtf.jpeg"
+import b14 from "../../assets/six.webp"
+import b15 from "../../assets/vel.webp"
+import b16 from "../../assets/cray.webp"
+import b17 from "../../assets/ded.webp"
 const StreetWearBrands = () => {
   const [hoverIndex, setHoverIndex] = useState(null);
   const [showAllLuxury, setShowAllLuxury] = useState(false);
   const [showAllAffordable, setShowAllAffordable] = useState(false);
 
   const luxuryBrands = [
-    { id: 1, title: "Jaywalking", image: "/images/jaywalking.jpg", buttonText: "EXPLORE NOW", link: "/collections/Jaywalking" },
-    { id: 2, title: "Huemn", image: "/images/huemn.jpg", buttonText: "EXPLORE NOW", link: "/collections/huemn" },
-    { id: 3, title: "Almost Gods", image: "../../assets/almostgods.webp", buttonText: "EXPLORE NOW", link: "/collections/AlmostGods" },
-    { id: 4, title: "TurntUp", image: "/images/turntup.jpg", buttonText: "EXPLORE NOW", link: "/collections/TurntUp" },
-    { id: 5, title: "BluOrng", image: "/images/bluorng.jpg", buttonText: "EXPLORE NOW", link: "/collections/BluOrng" },
-    { id: 6, title: "SpaceBiskit", image: "/images/spacebiskit.jpg", buttonText: "EXPLORE NOW", link: "/collections/SpaceBiskit" },
-    { id: 7, title: "Drip Project", image: "/images/dripproject.jpg", buttonText: "EXPLORE NOW", link: "/collections/DripProject" },
-    { id: 8, title: "Bomaachi", image: "/images/bomaachi.jpg", buttonText: "EXPLORE NOW", link: "/collections/Bomaachi" },
-    { id: 9, title: "Blck Orchid", image: "/images/blckorchid.jpg", buttonText: "EXPLORE NOW", link: "/collections/BlckOrchid" },
-    { id: 10, title: "Evemen", image: "/images/evemen.jpg", buttonText: "EXPLORE NOW", link: "/collections/Evemen" }
+    { id: 1, title: "Jaywalking", image: b1, buttonText: "EXPLORE NOW", link: "/collections/Jaywalking" },
+    { id: 2, title: "Huemn", image: b2, buttonText: "EXPLORE NOW", link: "/collections/huemn" },
+    { id: 3, title: "Almost Gods", image: b3, buttonText: "EXPLORE NOW", link: "/collections/AlmostGods" },
+    { id: 4, title: "TurntUp", image: b4, buttonText: "EXPLORE NOW", link: "/collections/TurntUp" },
+    { id: 5, title: "BluOrng", image: b5, buttonText: "EXPLORE NOW", link: "/collections/BluOrng" },
+    { id: 6, title: "SpaceBiskit", image: b6, buttonText: "EXPLORE NOW", link: "/collections/SpaceBiskit" },
+    { id: 7, title: "Drip Project", image: b7, buttonText: "EXPLORE NOW", link: "/collections/DripProject" },
+    { id: 8, title: "Bomaachi", image: b8, buttonText: "EXPLORE NOW", link: "/collections/Bomaachi" },
+    { id: 9, title: "Blck Orchid", image: b9, buttonText: "EXPLORE NOW", link: "/collections/BlckOrchid" },
+    { id: 10, title: "Evemen", image: b10, buttonText: "EXPLORE NOW", link: "/collections/Evemen" }
   ];
 
   const affordableBrands = [
-    { id: 1, title: "Future Saints", image: "/images/futuresaints.jpg", buttonText: "EXPLORE NOW", link: "/collections/FutureSaints" },
-    { id: 2, title: "Genrage", image: "/images/genrage.jpg", buttonText: "EXPLORE NOW", link: "/collections/Genrage" },
-    { id: 3, title: "WtFlex", image: "/images/wtflex.jpg", buttonText: "EXPLORE NOW", link: "/collections/WtFlex" },
-    { id: 4, title: "Six5Six", image: "/images/six5six.jpg", buttonText: "EXPLORE NOW", link: "/collections/Six5Six" },
-    { id: 5, title: "Veloce", image: "/images/veloce.jpg", buttonText: "EXPLORE NOW", link: "/collections/Veloce" },
-    { id: 6, title: "Crayyheads", image: "/images/crayyheads.jpg", buttonText: "EXPLORE NOW", link: "/collections/Crayyheads" },
-    { id: 7, title: "DeadBear", image: "/images/deadbear.jpg", buttonText: "EXPLORE NOW", link: "/collections/DeadBear" }
+    { id: 1, title: "Future Saints", image: b11, buttonText: "EXPLORE NOW", link: "/collections/FutureSaints" },
+    { id: 2, title: "Genrage", image: b12, buttonText: "EXPLORE NOW", link: "/collections/Genrage" },
+    { id: 3, title: "WtFlex", image: b13, buttonText: "EXPLORE NOW", link: "/collections/WtFlex" },
+    { id: 4, title: "Six5Six", image: b14, buttonText: "EXPLORE NOW", link: "/collections/Six5Six" },
+    { id: 5, title: "Veloce", image: b15, buttonText: "EXPLORE NOW", link: "/collections/Veloce" },
+    { id: 6, title: "Crayyheads", image: b16, buttonText: "EXPLORE NOW", link: "/collections/Crayyheads" },
+    { id: 7, title: "DeadBear", image: b17, buttonText: "EXPLORE NOW", link: "/collections/DeadBear" }
   ];
 
   // Show 3 brands by default, show all when "View All" is clicked

@@ -1,17 +1,22 @@
 import React, { useState } from "react";
 import "./casualwearCard.scss";
-
+import b1 from "../../assets/wrap.webp"
+import b2 from "../../assets/out.webp"
+import b3 from "../../assets/it.webp"
+import b4 from "../../assets/bluer.webp"
+import b5 from "../../assets/dap.webp"
+import b6 from "../../assets/bee.webp"
 const CasualWearBrands = () => {
   const [hoverIndex, setHoverIndex] = useState(null);
   const [showAll, setShowAll] = useState(false);
 
   const casualBrands = [
-    { id: 1, title: "Warping Theories", category: "Indie Casual", image: "/images/warpingtheories.jpg", link: "/collections/WarpingTheories" },
-    { id: 2, title: "Outcasts", category: "Alternative Casual", image: "/images/outcasts.jpg", link: "/collections/Outcasts" },
-    { id: 3, title: "It Girl", category: "Contemporary Casual", image: "/images/itgirl.jpg", link: "/collections/ItGirl" },
-    { id: 4, title: "Bluer", category: "Minimalist Casual", image: "/images/bluer.jpg", link: "/collections/Bluer" },
-    { id: 5, title: "Dapping Lady", category: "Elegant Casual", image: "/images/dappinglady.jpg", link: "/collections/DappingLady" },
-    { id: 6, title: "Beegle", category: "Playful Casual", image: "/images/beegle.jpg", link: "/collections/Beegle" }
+    { id: 1, title: "Warping Theories", category: "Indie Casual", image: b1, link: "/collections/WarpingTheories" },
+    { id: 2, title: "Outcasts", category: "Alternative Casual", image: b2, link: "/collections/Outcasts" },
+    { id: 3, title: "It Girl", category: "Contemporary Casual", image: b3, link: "/collections/ItGirl" },
+    { id: 4, title: "Bluer", category: "Minimalist Casual", image:b4, link: "/collections/Bluer" },
+    { id: 5, title: "The Dapper Lady", category: "Elegant Casual", image: b5, link: "/collections/DappingLady" },
+    { id: 6, title: "Beegle", category: "Playful Casual", image: b6, link: "/collections/Beegle" }
   ];
 
   const visibleBrands = showAll ? casualBrands : casualBrands.slice(0, 3);
