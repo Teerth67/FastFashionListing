@@ -86,7 +86,7 @@ const Home = () => {
  <StreetWearCards />
  <CasualCards/>
           <ParallaxSection />
-          <ParallaxSection2 />
+          
 
           <section className="products-section">
             <div className="container">

@@ -56,9 +56,12 @@ const Slider = () => {
                         <h2>{heading}</h2>
                         <p>{desc}</p>
                         <hr />
-                        {/* <button className='--btn --btn-primary' onClick={() => navigate("/shop")}>
-                             Shop Now
-                        </button> */}
+                        <button 
+  className='--btn --btn-primary shop-button' 
+  onClick={() => navigate(slide.link)} // Use individual link
+>
+  Shop Now
+</button>
                        </div>
                        </>
                     )}
