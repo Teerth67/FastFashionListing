@@ -73,7 +73,7 @@
   background-color: rgba(255, 255, 255, 0.2);
   color: white;
   padding: 0.5rem 1.5rem;
-  border-radius: 30px;
+  border-radius: 0px;
   margin-bottom: 1rem;
   font-weight: 500;
   letter-spacing: 0.05em;
@@ -91,20 +91,20 @@
 .cta-button {
   display: inline-block;
   padding: 1rem 2.5rem;
-  background-color: white;
-  color: #333;
+  background-color: transparent;
+  color: #ffffff;
   text-decoration: none;
-  border-radius: 50px;
+  border-radius: 0px;
   font-weight: 600;
   letter-spacing: 0.05em;
-  transition: all 0.3s ease;
-  box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+  transition: none;
+  border: 1px solid rgba(255, 255, 255, 0.5);
 }
 
 .cta-button:hover {
-  background-color: #f0f0f0;
-  transform: translateY(-5px);
-  box-shadow: 0 15px 25px rgba(0,0,0,0.15);
+  background-color: transparent !important;
+  color: #ffffff !important;
+  border-color: rgba(255, 255, 255, 0.5) !important;
 }
 
 @media (max-width: 768px) {

@@ -121,7 +121,7 @@ const ParallaxSection = () => {
               animate={{ opacity: 1, x: 0 }}
               transition={{ delay: 0.2, duration: 0.5 }}
             >
-              Exclusive Collection
+              Collaboration Drip
             </motion.span>
             
             <motion.h2 
@@ -130,11 +130,11 @@ const ParallaxSection = () => {
               animate={{ opacity: 1, scale: 1 }}
               transition={{ delay: 0.3, duration: 0.5 }}
             >
-              Men's Premium Line
+               Wokelemon
             </motion.h2>
             
             <motion.a 
-              href="/men" 
+             // href="/men" 
               className={styles['cta-button']}
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
@@ -145,7 +145,7 @@ const ParallaxSection = () => {
               }}
               whileTap={{ scale: 0.95 }}
             >
-              Explore Collection
+              Coming Soon!!
             </motion.a>
           </div>
         </div>
