@@ -57,7 +57,7 @@ const Header = ({ openLogin, openRegister }) => {
 
   // Check for mobile view
   useEffect(() => {
-    const checkMobile = () => setIsMobile(window.innerWidth <= 820);
+    const checkMobile = () => setIsMobile(window.innerWidth <= 1024);
     checkMobile();
     window.addEventListener("resize", checkMobile);
     return () => window.removeEventListener("resize", checkMobile);
