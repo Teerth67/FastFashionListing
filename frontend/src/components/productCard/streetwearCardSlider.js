@@ -9,7 +9,7 @@ const StreetWearBrands = () => {
   const luxuryBrands = [
     { id: 1, title: "Jaywalking", image: "/images/jaywalking.jpg", buttonText: "EXPLORE NOW", link: "/collections/Jaywalking" },
     { id: 2, title: "Huemn", image: "/images/huemn.jpg", buttonText: "EXPLORE NOW", link: "/collections/huemn" },
-    { id: 3, title: "Almost Gods", image: "/images/almostgods.jpg", buttonText: "EXPLORE NOW", link: "/collections/AlmostGods" },
+    { id: 3, title: "Almost Gods", image: "../../assets/almostgods.webp", buttonText: "EXPLORE NOW", link: "/collections/AlmostGods" },
     { id: 4, title: "TurntUp", image: "/images/turntup.jpg", buttonText: "EXPLORE NOW", link: "/collections/TurntUp" },
     { id: 5, title: "BluOrng", image: "/images/bluorng.jpg", buttonText: "EXPLORE NOW", link: "/collections/BluOrng" },
     { id: 6, title: "SpaceBiskit", image: "/images/spacebiskit.jpg", buttonText: "EXPLORE NOW", link: "/collections/SpaceBiskit" },

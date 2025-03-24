@@ -8,7 +8,6 @@ import { fetchProductsApi } from "../../redux/features/products/productApi";
 import "./saleSection.scss";
 
 const SaleSection = () => {
-  const [hoverIndex, setHoverIndex] = useState(null);
   const [menSaleProducts, setMenSaleProducts] = useState({});
   const [womenSaleProducts, setWomenSaleProducts] = useState({});
   const [isLoading, setIsLoading] = useState(true);
@@ -111,16 +110,12 @@ const SaleSection = () => {
     return parseFloat(cleanedPrice) || 0;
   };
     
-  // Product Item Component
-  const ProductItem = ({ product, categoryName, gender, hoverKey }) => {
+  // Product Item Component - Modified to remove hover effect
+  const ProductItem = ({ product, categoryName, gender }) => {
     const isWishlisted = wishlistItems.some((item) => item._id === product._id);
 
     return (
-      <article
-        className="product-card"
-        onMouseEnter={() => !isMobile && setHoverIndex(hoverKey)}
-        onMouseLeave={() => !isMobile && setHoverIndex(null)}
-      >
+      <article className="product-card">
         <Link to={`/product/${product._id}`} className="product-link-wrapper">
           <div className="product-image-container">
             <OptimizedImage
@@ -131,8 +126,8 @@ const SaleSection = () => {
             {product.salePrice && product.price && (
               <span className="sale-badge">
                 {Math.round(
-      (1 - (extractNumber(product.salePrice) / extractNumber(product.price))) * 100
-    )}
+                  (1 - (extractNumber(product.salePrice) / extractNumber(product.price))) * 100
+                )}
                 % OFF
               </span>
             )}
@@ -148,56 +143,32 @@ const SaleSection = () => {
               <FaHeart className={`heart-icon ${isWishlisted ? "wishlisted" : ""}`} />
             </button>
 
-            {!isMobile && (
-              <div className={`product-overlay ${hoverIndex === hoverKey ? "active" : ""}`}>
-                <div className="product-content">
-                  <span className="product-category">
-                    {gender === "men" ? "Men's" : "Women's"} {getCategoryName(categoryName, gender)}
-                  </span>
-                  <h3 className="product-title">{product.title || "Untitled Product"}</h3>
-                  <div className="product-price">
-                    {product.salePrice && product.salePrice !== "N/A" ? (
-                      <>
-                        <span className="original-price">{product.price}</span>
-                        <span className="sale-price">{product.salePrice}</span>
-                      </>
-                    ) : (
-                      <span className="regular-price">{product.price}</span>
-                    )}
-                  </div>
-                  <span className="product-cta">SHOP NOW</span>
+            {/* Display product info directly on image for all devices */}
+            <div className="product-info-overlay">
+              <div className="product-content">
+                <span className="product-category">
+                  {gender === "men" ? "Men's" : "Women's"} {getCategoryName(categoryName, gender)}
+                </span>
+                <h3 className="product-title">{product.title || "Untitled Product"}</h3>
+                <div className="product-price">
+                  {product.salePrice && product.salePrice !== "N/A" ? (
+                    <>
+                      <span className="original-price">{product.price}</span>
+                      <span className="sale-price">{product.salePrice}</span>
+                    </>
+                  ) : (
+                    <span className="regular-price">{product.price}</span>
+                  )}
                 </div>
               </div>
-            )}
-          </div>
-        </Link>
-
-        {isMobile && (
-          <div className="product-info">
-            <h2 className="product-title">{product.title || "Untitled Product"}</h2>
-            <p className="product-source">{product.source || "Unknown Source"}</p>
-            <p className="product-price">
-              {product.salePrice && product.salePrice !== "N/A" ? (
-                <>
-                  <span className="original-price">{product.price}</span>
-                  <span className="sale-price">{product.salePrice}</span>
-                </>
-              ) : (
-                <span className="regular-price">{product.price}</span>
-              )}
-            </p>
-            <div className="product-actions">
-              <Link to={`/product/${product._id}`} className="product-link">
-                View Product
-              </Link>
             </div>
           </div>
-        )}
+        </Link>
       </article>
     );
   };
 
-  // Completely revised CategorySlider Component with improved slider logic
+  // Revised CategorySlider Component with improved slider logic
   const CategorySlider = ({ gender, category, products = [], isLoading }) => {
     const sliderRef = useRef(null);
     const [currentIndex, setCurrentIndex] = useState(0);
@@ -235,7 +206,7 @@ const SaleSection = () => {
       }
     }, [currentIndex]);
     
-    // Simply window resize handler
+    // Window resize handler
     useEffect(() => {
       const handleResize = () => {
         // Reset to first item on resize to avoid empty spaces
@@ -330,19 +301,19 @@ const SaleSection = () => {
                 product={product}
                 categoryName={category}
                 gender={gender}
-                hoverKey={`${gender}-${category}-${index}`}
               />
             ))}
           </div>
         </div>
         <div className="view-all-container">
-          <Link to={`/collections/${gender}-sale/${category}`} className="view-all-button">
+          <Link to={`/sales/${gender}/${category}`} className="view-all-button">
             VIEW ALL {gender.toUpperCase()}'S {getCategoryName(category, gender).toUpperCase()} SALE
           </Link>
         </div>
       </div>
     );
   };
+  
   return (
     <section className="sale-section">
       <div className="sale-header">
