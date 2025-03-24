@@ -1,0 +1,292 @@
+/* Filter component redesign - making it smaller and positioned on left */
+.filterBar {
+  position: relative;
+  width: 200px; /* Narrower width for left sidebar */
+  margin: 0 0 20px 0; /* Remove auto horizontal margin to align left */
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+}
+
+/* Filter button styling - made more compact */
+.filterButton {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  padding: 10px 15px; /* Reduced padding */
+  background-color: #f9f9f9;
+  border: 1px solid #e2e2e2;
+  border-radius: 8px;
+  font-weight: 600;
+  font-size: 14px; /* Slightly smaller font */
+  cursor: pointer;
+  transition: all 0.2s ease;
+  color: #333;
+  
+  &:hover {
+    background-color: #f2f2f2;
+    border-color: #d8d8d8;
+  }
+  
+  &.active {
+    background-color: #f2f2f2;
+    border-color: #d8d8d8;
+    border-bottom-left-radius: 0;
+    border-bottom-right-radius: 0;
+  }
+}
+
+/* Arrow icon for filter toggle */
+.filterArrow {
+  transition: transform 0.3s ease;
+}
+
+.filterButton.active .filterArrow {
+  transform: rotate(180deg);
+}
+
+/* Filter panel adjustments */
+.filterPanel {
+  position: absolute;
+  left: 0;
+  top: 100%;
+  width: 100%;
+  z-index: 100;
+  background-color: white;
+  border: 1px solid #d8d8d8;
+  border-top: none;
+  border-bottom-left-radius: 8px;
+  border-bottom-right-radius: 8px;
+  padding: 12px; /* Reduced padding */
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  overflow: visible;
+}
+
+/* Filter sections */
+.filterSection {
+  margin-bottom: 15px; /* Reduced margin */
+  overflow: visible;
+}
+
+.filterSection:last-child {
+  margin-bottom: 0;
+}
+
+.filterHeading {
+  font-weight: 600;
+  font-size: 14px; /* Smaller heading */
+  color: #333;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  cursor: pointer;
+  margin-bottom: 8px; /* Reduced margin */
+}
+
+.filterContent {
+  margin-top: 8px; /* Reduced margin */
+  overflow: visible;
+}
+
+/* Checkbox group - single column for sidebar */
+.checkboxGroup {
+  display: grid;
+  grid-template-columns: 1fr; /* Single column for left sidebar */
+  gap: 8px; /* Reduced gap */
+  max-height: 180px; /* Slightly reduced height */
+  overflow-y: auto;
+  padding-right: 5px;
+  scrollbar-width: thin;
+}
+
+/* Checkbox styling */
+.filterCheckbox {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.filterCheckbox input[type="checkbox"] {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 16px;
+  height: 16px;
+  border: 1px solid #ccc;
+  border-radius: 3px;
+  margin: 0;
+  cursor: pointer;
+  position: relative;
+  transition: all 0.15s ease;
+}
+
+.filterCheckbox input[type="checkbox"]:checked {
+  background-color: #4a4a4a;
+  border-color: #4a4a4a;
+}
+
+.filterCheckbox input[type="checkbox"]:checked::after {
+  content: '';
+  position: absolute;
+  left: 5px;
+  top: 2px;
+  width: 4px;
+  height: 8px;
+  border: solid white;
+  border-width: 0 2px 2px 0;
+  transform: rotate(45deg);
+}
+
+.filterCheckbox label {
+  font-size: 13px; /* Smaller font for labels */
+  color: #444;
+  cursor: pointer;
+}
+
+/* Price range slider styling */
+.priceRangeSlider {
+  padding: 0 8px; /* Reduced padding */
+  margin-top: 12px; /* Reduced margin */
+  margin-bottom: 20px; /* Reduced margin */
+}
+
+.rangeTrack {
+  width: 100%;
+  height: 4px;
+  background: #e9e9e9;
+  border-radius: 2px;
+  position: relative;
+  margin: 12px 0; /* Reduced margin */
+}
+
+.rangeProgress {
+  position: absolute;
+  top: 0;
+  height: 100%;
+  background-color: #4a4a4a;
+  border-radius: 2px;
+}
+
+.rangeHandle {
+  width: 16px; /* Slightly smaller handle */
+  height: 16px; /* Slightly smaller handle */
+  border-radius: 50%;
+  background-color: white;
+  border: 2px solid #4a4a4a;
+  position: absolute;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  cursor: pointer;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.15);
+}
+
+.priceInputs {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px; /* Reduced gap */
+  margin-top: 5px;
+}
+
+.priceInput {
+  display: flex;
+  align-items: center;
+  gap: 4px; /* Reduced gap */
+}
+
+.priceInput input {
+  width: 70px; /* Narrower input */
+  padding: 6px 8px; /* Reduced padding */
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  font-size: 13px; /* Smaller font */
+}
+
+/* Action buttons - made smaller and Reset button black */
+.filterActions {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 15px; /* Reduced margin */
+  gap: 8px; /* Reduced gap */
+}
+
+.applyButton, .resetButton {
+  padding: 8px 15px; /* Smaller padding */
+  border-radius: 6px;
+  font-size: 13px; /* Smaller font */
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  text-align: center;
+}
+
+.applyButton {
+  background-color: #333;
+  color: white;
+  border: none;
+  flex: 1;
+}
+
+.applyButton:hover {
+  background-color: #222;
+}
+
+.resetButton {
+  background-color: #333; /* Changed to black as requested */
+  color: white; /* Changed text to white for readability */
+  border: none; /* Removed border since it's now black */
+  flex: 0 0 auto;
+}
+
+.resetButton:hover {
+  background-color: #222;
+}
+
+/* Custom scrollbar styling */
+.checkboxGroup::-webkit-scrollbar {
+  width: 4px; /* Narrower scrollbar */
+}
+
+.checkboxGroup::-webkit-scrollbar-track {
+  background: #f1f1f1;
+  border-radius: 3px;
+}
+
+.checkboxGroup::-webkit-scrollbar-thumb {
+  background: #ccc;
+  border-radius: 3px;
+}
+
+.checkboxGroup::-webkit-scrollbar-thumb:hover {
+  background: #aaa;
+}
+
+/* Combined layout styling for filter layout */
+.productLayout {
+  display: flex;
+  gap: 20px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.filterSidebar {
+  flex: 0 0 200px; /* Fixed width sidebar */
+}
+
+.productGrid {
+  flex: 1;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .productLayout {
+    flex-direction: column;
+  }
+  
+  .filterBar {
+    width: 100%;
+    margin-bottom: 15px;
+  }
+  
+  .checkboxGroup {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}

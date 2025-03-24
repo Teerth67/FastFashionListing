@@ -18,6 +18,167 @@ const getSortQuery = (sort) => {
   }
 };
 
+const getFilteredProducts = async (req, res) => {
+  try {
+    // Extract pagination and sorting parameters
+    let { page, limit, sort } = req.query;
+    page = parseInt(page) || 1;
+    limit = parseInt(limit) || 10;
+    const skip = (page - 1) * limit;
+
+    // Extract filter parameters
+    let { brands, categories, minPrice, maxPrice, styles } = req.query;
+
+    // Build match conditions for MongoDB aggregation
+    const matchConditions = {};
+
+    // 1. Brand filter (array of brands or default all)
+    if (brands && brands !== 'all') {
+      // Handle brands as comma-separated list
+      const brandArray = brands.split(',');
+      matchConditions.source = { $in: brandArray };
+    }
+
+    // 2. Category filter
+    if (categories) {
+      // Handle categories as comma-separated list
+      const categoryArray = categories.split(',');
+      matchConditions.category = { $in: categoryArray };
+    }
+
+    // 3. Style filter (casual, streetwear, etc.)
+    if (styles) {
+      // Handle styles as comma-separated list
+      const styleArray = styles.split(',');
+      matchConditions.style = { $in: styleArray };
+    }
+
+    // Build price filter stages
+    const priceFilter = [];
+
+    // First apply the standard price conversion stages
+    priceFilter.push(...getPriceConversionStages());
+
+    // Then add price range filtering if provided
+    if (minPrice !== undefined || maxPrice !== undefined) {
+      const priceCondition = {};
+      
+      if (minPrice !== undefined) {
+        priceCondition.$gte = parseFloat(minPrice);
+      }
+      
+      if (maxPrice !== undefined) {
+        priceCondition.$lte = parseFloat(maxPrice);
+      }
+      
+      // Add price filter stage, checking both regular and sale prices
+      priceFilter.push({
+        $match: {
+          $or: [
+            { priceNumeric: priceCondition },
+            { salePriceNumeric: priceCondition }
+          ]
+        }
+      });
+    }
+
+    // Execute aggregation pipeline
+    const products = await Product.aggregate([
+      // Initial filtering by brand, category, style
+      { $match: matchConditions },
+      // Price conversion and filtering
+      ...priceFilter,
+      // Sort results
+      { $sort: getSortQuery(sort) },
+      // Pagination
+      { $skip: skip },
+      { $limit: limit }
+    ]);
+
+    // Count total filtered products for pagination
+    const totalPipeline = [
+      { $match: matchConditions },
+      ...priceFilter,
+      { $count: 'total' }
+    ];
+
+    const totalResult = await Product.aggregate(totalPipeline);
+    const totalProducts = totalResult.length > 0 ? totalResult[0].total : 0;
+
+    // Return filtered products with pagination info
+    res.json({
+      success: true,
+      products,
+      filters: {
+        brands: brands || 'all',
+        categories: categories || 'all',
+        priceRange: {
+          min: minPrice || 'any',
+          max: maxPrice || 'any'
+        },
+        styles: styles || 'all'
+      },
+      currentPage: page,
+      totalPages: Math.ceil(totalProducts / limit),
+      hasMore: skip + limit < totalProducts,
+    });
+  } catch (error) {
+    console.error('Filtering error:', error);
+    res.status(500).json({ 
+      success: false,
+      message: "❌ Server Error", 
+      error: process.env.NODE_ENV === 'development' ? error : undefined 
+    });
+  }
+};
+
+// Helper function to get available filter options
+const getFilterOptions = async (req, res) => {
+  try {
+    // Get all available brands (sources)
+    const brands = await Product.distinct('source');
+    
+    // Get all available categories
+    const categories = await Product.distinct('category');
+    
+    // Get all available styles (you'll need to add this field to your schema)
+    const styles = await Product.distinct('style');
+    
+    // Get price range
+    const pricePipeline = [
+      ...getPriceConversionStages(),
+      {
+        $group: {
+          _id: null,
+          minPrice: { $min: '$priceNumeric' },
+          maxPrice: { $max: '$priceNumeric' }
+        }
+      }
+    ];
+    
+    const priceRange = await Product.aggregate(pricePipeline);
+    
+    res.json({
+      success: true,
+      filterOptions: {
+        brands,
+        categories,
+        styles,
+        priceRange: priceRange.length > 0 ? {
+          min: Math.floor(priceRange[0].minPrice),
+          max: Math.ceil(priceRange[0].maxPrice)
+        } : { min: 0, max: 1000 }
+      }
+    });
+  } catch (error) {
+    console.error('Error getting filter options:', error);
+    res.status(500).json({ 
+      success: false,
+      message: "❌ Server Error", 
+      error: process.env.NODE_ENV === 'development' ? error : undefined 
+    });
+  }
+};
 
 
 const getProducts = async (req, res) => {
@@ -472,5 +633,7 @@ module.exports = {
   searchProducts,
   getProductsBySalePriceCategoryAndGender, // New Route
 getProductsBySalePrice,
-getProductsBySalePriceAndGender
+getProductsBySalePriceAndGender,
+getFilteredProducts,
+getFilterOptions
 };
