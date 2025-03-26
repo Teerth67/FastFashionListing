@@ -26,7 +26,11 @@ const brandLinks = [
   { name: "Beeglee", path: "/collections/Beeglee" },
   { name: "Merche", path: "/collections/themerche" },
   { name: "It-Girl", path: "/collections/ItGirl" },
-  { name: "The Dapper Lady", path: "/collections/TheDapperLady" }
+  { name: "The Dapper Lady", path: "/collections/TheDapperLady" },
+  { name: "Crayyheads", path: "/collections/Crayyheads" },
+  { name: "Bluer", path: "/collections/Bluer" }
+
+
 ];
 const FooterLinks = () => {
   const navigate=useNavigate()

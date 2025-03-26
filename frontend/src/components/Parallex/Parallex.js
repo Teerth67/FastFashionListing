@@ -3,7 +3,7 @@ import { motion } from 'framer-motion';
 import styles from './Parallex.module.scss';
 
 // Import your image - replace with your actual image path
-import heroImage from '../../assets/pp1_c.webp';
+import heroImage from '../../assets/slider1.webp';
 
 const ParallaxSection = () => {
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });

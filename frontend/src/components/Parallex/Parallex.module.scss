@@ -120,6 +120,16 @@
     animation: floatContent 3s ease-in-out infinite;
   }
 
+  .image-wrapper {
+    background-image: url('../../assets/slider2.webp');
+    background-size: cover;
+    background-position: center;
+  }
+
+  .hero-image {
+    opacity: 0; // Hide the original image on mobile
+  }
+
   @keyframes floatContainer {
     0%, 100% { transform: translateY(0); }
     50% { transform: translateY(-10px); }
