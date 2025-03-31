@@ -16,7 +16,7 @@ export const fetchProductsApi = async ({
   styles
 }) => {
   // Check if any filters are applied
-  const hasFilters = brands || categories || minPrice || maxPrice || styles;
+  const hasFilters = brands || categories || minPrice || maxPrice || styles || gender;
   
   // If filters are applied, use the filtered endpoint
   if (hasFilters) {
@@ -29,10 +29,11 @@ export const fetchProductsApi = async ({
     if (minPrice) filterParams.append('minPrice', minPrice);
     if (maxPrice) filterParams.append('maxPrice', maxPrice);
     if (styles) filterParams.append('styles', styles);
-    
+    if (gender) filterParams.append('gender', gender);
+
     // Add source and gender if they exist (for filtering within a specific source/gender)
     if (source) filterParams.append('source', source);
-    if (gender) filterParams.append('gender', gender);
+    //if (gender) filterParams.append('gender', gender);
     if (category) filterParams.append('category', category);
     
     // Append filter parameters

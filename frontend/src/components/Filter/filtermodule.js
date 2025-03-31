@@ -1,86 +1,36 @@
-import React, { useEffect, useState, useRef } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchFilterOptions } from '../../redux/features/products/productThunk';
 import { setFilters, resetFilters } from '../../redux/features/products/productSlice';
 import styles from './Filter.module.scss';
 
-const FilterBar = () => {
-  const [isOpen, setIsOpen] = useState(false);
-  const filterBarRef = useRef(null);
-  const dispatch = useDispatch();
-  
-  // Simple toggle for filter visibility
-  const toggleFilter = () => {
-    setIsOpen(!isOpen);
-  };
-  
-  // Close filter panel when clicking outside
-  useEffect(() => {
-    const handleClickOutside = (event) => {
-      if (isOpen && filterBarRef.current && !filterBarRef.current.contains(event.target)) {
-        setIsOpen(false);
-      }
-    };
-    
-    document.addEventListener('mousedown', handleClickOutside);
-    return () => {
-      document.removeEventListener('mousedown', handleClickOutside);
-    };
-  }, [isOpen]);
-
-  return (
-    <div className={styles.filterBar} ref={filterBarRef}>
-      <button 
-        className={`${styles.filterButton} ${isOpen ? styles.active : ''}`} 
-        onClick={toggleFilter}
-        type="button"
-      >
-        <span>FILTERS</span>
-        <span className={styles.filterIcon}>{isOpen ? '▲' : '▼'}</span>
-      </button>
-      
-      {/* Render filter panel conditionally without nesting */}
-      {isOpen && <FiltersPanel closePanel={() => setIsOpen(false)} />}
-    </div>
-  );
-};
-
-const FiltersPanel = ({ closePanel }) => {
+const Filter = () => {
   const dispatch = useDispatch();
   const { 
     filterOptions, 
-    filters: currentFilters
+    filters: currentFilters,
+    filterOptionsStatus, 
+    filterOptionsError
   } = useSelector(state => state.products);
   
-  // Initialize state
+  const [expandedSections, setExpandedSections] = useState({
+    brands: true,
+    categories: true,
+    price: true,
+    gender: true
+  });
+  
+  const [searchTerm, setSearchTerm] = useState('');
   const [selectedBrands, setSelectedBrands] = useState([]);
   const [selectedCategories, setSelectedCategories] = useState([]);
-  const [priceRange, setPriceRange] = useState({
-    min: '',
-    max: ''
-  });
+  const [selectedGender, setSelectedGender] = useState('');
+  const [priceRange, setPriceRange] = useState({ min: '', max: '' });
+  const [isFilterOverlayVisible, setFilterOverlayVisible] = useState(false);
   
-  // Expanded section states - default to collapsed to reduce scrolling
-  const [expandedSections, setExpandedSections] = useState({
-    brands: false,
-    categories: false,
-    price: false
-  });
+  useEffect(() => {
+    dispatch(fetchFilterOptions());
+  }, [dispatch]);
   
-  // Prevent event propagation to avoid panel closing
-  const handlePanelClick = (e) => {
-    e.stopPropagation();
-  };
-  
-  // Toggle expanded state for a section
-  const toggleSection = (section) => {
-    setExpandedSections(prev => ({
-      ...prev,
-      [section]: !prev[section]
-    }));
-  };
-  
-  // Update local state when filters change
   useEffect(() => {
     if (currentFilters?.brands) {
       setSelectedBrands(Array.isArray(currentFilters.brands) 
@@ -98,143 +48,206 @@ const FiltersPanel = ({ closePanel }) => {
       setSelectedCategories([]);
     }
     
+    if (currentFilters?.gender) {
+      setSelectedGender(currentFilters.gender);
+    } else {
+      setSelectedGender('');
+    }
+    
     if (currentFilters?.minPrice) {
       setPriceRange(prev => ({ ...prev, min: currentFilters.minPrice }));
+    } else {
+      setPriceRange(prev => ({ ...prev, min: '' }));
     }
     
     if (currentFilters?.maxPrice) {
       setPriceRange(prev => ({ ...prev, max: currentFilters.maxPrice }));
+    } else {
+      setPriceRange(prev => ({ ...prev, max: '' }));
     }
   }, [currentFilters]);
-  
-  // Apply filters and close panel
-  const applyFilters = (e) => {
-    e.stopPropagation();
-    
+
+  const toggleSection = (section) => {
+    setExpandedSections(prev => ({ ...prev, [section]: !prev[section] }));
+  };
+
+  // Fixed gender handling
+  const handleGenderChange = (gender) => {
+    setSelectedGender(prev => prev === gender ? '' : gender);
+  };
+
+  const applyFilters = () => {
     const newFilters = {};
     
-    if (selectedBrands.length > 0) {
-      newFilters.brands = selectedBrands.join(',');
-    }
-    
-    if (selectedCategories.length > 0) {
-      newFilters.categories = selectedCategories.join(',');
-    }
-    
-    if (priceRange.min) {
-      newFilters.minPrice = priceRange.min;
-    }
-    
-    if (priceRange.max) {
-      newFilters.maxPrice = priceRange.max;
-    }
+    if (selectedBrands.length > 0) newFilters.brands = selectedBrands.join(',');
+    if (selectedCategories.length > 0) newFilters.categories = selectedCategories.join(',');
+    if (selectedGender) newFilters.gender = selectedGender;  // Only add if selected
+    if (priceRange.min) newFilters.minPrice = priceRange.min;
+    if (priceRange.max) newFilters.maxPrice = priceRange.max;
     
     dispatch(setFilters(newFilters));
-    closePanel(); // Close panel after applying filters
+    setFilterOverlayVisible(false);
   };
-  
-  // Reset all filters
-  const handleResetFilters = (e) => {
-    e.stopPropagation();
-    
+
+  const handleResetFilters = () => {
     setSelectedBrands([]);
     setSelectedCategories([]);
+    setSelectedGender('');
     setPriceRange({ min: '', max: '' });
     dispatch(resetFilters());
   };
-  
-  // Handle brand/category changes
-  const handleItemChange = (item, collection, setCollection, e) => {
-    if (e) e.stopPropagation();
-    
-    setCollection(prev => {
-      if (prev.includes(item)) {
-        return prev.filter(i => i !== item);
-      } else {
-        return [...prev, item];
-      }
-    });
-  };
-  
-  // Handle price range input change
-  const handlePriceChange = (e) => {
-    e.stopPropagation();
-    const { name, value } = e.target;
-    setPriceRange(prev => ({
-      ...prev,
-      [name]: value
-    }));
+
+  const handleItemChange = (item, collection, setCollection) => {
+    setCollection(prev => prev.includes(item) ? prev.filter(i => i !== item) : [...prev, item]);
   };
 
-  return (
-    <div className={styles.filterPanel} onClick={handlePanelClick}>
-      {/* Brands Section */}
-      <div className={`${styles.filterSection} ${expandedSections.brands ? styles.expanded : ''}`}>
-        <h3 onClick={(e) => { e.stopPropagation(); toggleSection('brands'); }}>
+  const handlePriceChange = (e) => {
+    const { name, value } = e.target;
+    setPriceRange(prev => ({ ...prev, [name]: value }));
+  };
+
+  const filterOptionsBySearch = (options) => {
+    if (!searchTerm || !options) return options;
+    return options.filter(option => option.toLowerCase().includes(searchTerm.toLowerCase()));
+  };
+
+  // Corrected gender filter section
+  const renderGenderFilter = () => (
+    <div className={styles.filterSection}>
+      <h3 onClick={() => toggleSection('gender')}>
+        Gender
+        <span className={styles.sectionToggle}>
+          {expandedSections.gender ? '▲' : '▼'}
+        </span>
+      </h3>
+      
+      {expandedSections.gender && (
+        <div className={styles.filterContent}>
+          <div className={styles.checkboxGroup}>
+            {['men', 'women', 'unisex'].map(gender => (
+              <label key={gender} className={styles.checkboxLabel}>
+                <input
+                  type="radio"
+                  name="gender"
+                  checked={selectedGender === gender}
+                  onChange={() => handleGenderChange(gender)}
+                />
+                {gender.charAt(0).toUpperCase() + gender.slice(1)}
+              </label>
+            ))}
+          </div>
+        </div>
+      )}
+    </div>
+  );
+
+  const getAppliedFiltersCount = () => {
+    let count = 0;
+    if (currentFilters?.brands) count += currentFilters.brands.split(',').length;
+    if (currentFilters?.categories) count += currentFilters.categories.split(',').length;
+    if (currentFilters?.minPrice || currentFilters?.maxPrice) count += 1;
+    if (currentFilters?.gender) count += 1;  // Correct count
+    return count;
+  };
+
+  const appliedFiltersCount = getAppliedFiltersCount();
+
+  if (filterOptionsStatus === 'loading') return <div className={styles.filterLoading}>Loading filters...</div>;
+  if (filterOptionsStatus === 'failed') return (
+    <div className={styles.filterError}>
+      Failed to load filters. {filterOptionsError}
+      <button onClick={() => dispatch(fetchFilterOptions())}>Retry</button>
+    </div>
+  );
+
+  const filterContent = (
+    <>
+      {appliedFiltersCount > 0 && (
+        <div className={styles.appliedFiltersCount}>
+          {appliedFiltersCount} filter{appliedFiltersCount > 1 ? 's' : ''} applied
+          <button onClick={handleResetFilters} className={styles.clearAllButton}>
+            CLEAR ALL
+          </button>
+        </div>
+      )}
+      
+      {renderGenderFilter()}
+      
+      <div className={styles.filterSection}>
+        <h3 onClick={() => toggleSection('brands')}>
           Brands
           <span className={styles.sectionToggle}>
             {expandedSections.brands ? '▲' : '▼'}
           </span>
         </h3>
-        
         {expandedSections.brands && (
           <div className={styles.filterContent}>
+            {filterOptions?.brands?.length > 10 && (
+              <input
+                type="text"
+                className={styles.searchInput}
+                placeholder="Search brands"
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)}
+              />
+            )}
             <div className={styles.checkboxGroup}>
-              {filterOptions?.brands && filterOptions.brands.length > 0 ? (
-                filterOptions.brands.map(brand => (
-                  <label key={brand} className={styles.checkboxLabel}>
-                    <input
-                      type="checkbox"
-                      checked={selectedBrands.includes(brand)}
-                      onChange={(e) => handleItemChange(brand, selectedBrands, setSelectedBrands, e)}
-                    />
-                    {brand}
-                  </label>
-                ))
-              ) : <p>No brands available</p>}
+              {filterOptionsBySearch(filterOptions?.brands)?.map(brand => (
+                <label key={brand} className={styles.checkboxLabel}>
+                  <input
+                    type="checkbox"
+                    checked={selectedBrands.includes(brand)}
+                    onChange={() => handleItemChange(brand, selectedBrands, setSelectedBrands)}
+                  />
+                  {brand}
+                </label>
+              ))}
             </div>
           </div>
         )}
       </div>
       
-      {/* Categories Section */}
-      <div className={`${styles.filterSection} ${expandedSections.categories ? styles.expanded : ''}`}>
-        <h3 onClick={(e) => { e.stopPropagation(); toggleSection('categories'); }}>
+      <div className={styles.filterSection}>
+        <h3 onClick={() => toggleSection('categories')}>
           Categories
           <span className={styles.sectionToggle}>
             {expandedSections.categories ? '▲' : '▼'}
           </span>
         </h3>
-        
         {expandedSections.categories && (
           <div className={styles.filterContent}>
+            {filterOptions?.categories?.length > 10 && (
+              <input
+                type="text"
+                className={styles.searchInput}
+                placeholder="Search categories"
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)}
+              />
+            )}
             <div className={styles.checkboxGroup}>
-              {filterOptions?.categories && filterOptions.categories.length > 0 ? (
-                filterOptions.categories.map(category => (
-                  <label key={category} className={styles.checkboxLabel}>
-                    <input
-                      type="checkbox"
-                      checked={selectedCategories.includes(category)}
-                      onChange={(e) => handleItemChange(category, selectedCategories, setSelectedCategories, e)}
-                    />
-                    {category}
-                  </label>
-                ))
-              ) : <p>No categories available</p>}
+              {filterOptionsBySearch(filterOptions?.categories)?.map(category => (
+                <label key={category} className={styles.checkboxLabel}>
+                  <input
+                    type="checkbox"
+                    checked={selectedCategories.includes(category)}
+                    onChange={() => handleItemChange(category, selectedCategories, setSelectedCategories)}
+                  />
+                  {category}
+                </label>
+              ))}
             </div>
           </div>
         )}
       </div>
       
-      {/* Price Range Section */}
-      <div className={`${styles.filterSection} ${expandedSections.price ? styles.expanded : ''}`}>
-        <h3 onClick={(e) => { e.stopPropagation(); toggleSection('price'); }}>
+      <div className={styles.filterSection}>
+        <h3 onClick={() => toggleSection('price')}>
           Price Range
           <span className={styles.sectionToggle}>
             {expandedSections.price ? '▲' : '▼'}
           </span>
         </h3>
-        
         {expandedSections.price && (
           <div className={styles.filterContent}>
             <div className={styles.priceInputs}>
@@ -260,56 +273,50 @@ const FiltersPanel = ({ closePanel }) => {
         )}
       </div>
       
-      {/* Filter Actions */}
       <div className={styles.filterActions}>
-        <button 
-          type="button"
-          className={styles.applyButton}
-          onClick={applyFilters}
-        >
+        <button type="button" className={styles.applyButton} onClick={applyFilters}>
           Apply Filters
         </button>
-        <button 
-          type="button"
-          className={styles.resetButton}
-          onClick={handleResetFilters}
-        >
+        <button type="button" className={styles.resetButton} onClick={handleResetFilters}>
           Reset
         </button>
       </div>
-    </div>
+    </>
   );
-};
 
-// Main Filter Component
-const Filter = () => {
-  const dispatch = useDispatch();
-  const { 
-    filterOptionsStatus, 
-    filterOptionsError
-  } = useSelector(state => state.products);
-  
-  // Fetch filter options on component mount
-  useEffect(() => {
-    dispatch(fetchFilterOptions());
-  }, [dispatch]);
-  
-  // Loading state
-  if (filterOptionsStatus === 'loading') {
-    return <div className={styles.filterLoading}>Loading filters...</div>;
-  }
-  
-  // Error state
-  if (filterOptionsStatus === 'failed') {
-    return (
-      <div className={styles.filterError}>
-        Failed to load filters. {filterOptionsError}
-        <button onClick={() => dispatch(fetchFilterOptions())}>Retry</button>
+  return (
+    <>
+      <div className={styles.sideFilter}>{filterContent}</div>
+      
+      <button 
+        className={styles.mobileFilterButton}
+        onClick={() => setFilterOverlayVisible(true)}
+      >
+        FILTERS
+      </button>
+      
+      <div className={`${styles.filterOverlay} ${isFilterOverlayVisible ? styles.visible : ''}`}>
+        <div className={styles.overlayHeader}>
+          <h2>FILTERS</h2>
+          <button 
+            className={styles.closeButton}
+            onClick={() => setFilterOverlayVisible(false)}
+          >
+            ×
+          </button>
+        </div>
+        {filterContent}
+        <div className={styles.overlayFooter}>
+          <button className={styles.clearButton} onClick={handleResetFilters}>
+            CLEAR ALL
+          </button>
+          <button className={styles.applyButton} onClick={applyFilters}>
+            APPLY
+          </button>
+        </div>
       </div>
-    );
-  }
-
-  return <FilterBar />;
+    </>
+  );
 };
 
 export default Filter;

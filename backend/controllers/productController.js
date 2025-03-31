@@ -27,7 +27,7 @@ const getFilteredProducts = async (req, res) => {
     const skip = (page - 1) * limit;
 
     // Extract filter parameters
-    let { brands, categories, minPrice, maxPrice, styles } = req.query;
+    let { brands, categories, minPrice, maxPrice, styles, gender } = req.query;
 
     // Build match conditions for MongoDB aggregation
     const matchConditions = {};
@@ -51,6 +51,10 @@ const getFilteredProducts = async (req, res) => {
       // Handle styles as comma-separated list
       const styleArray = styles.split(',');
       matchConditions.style = { $in: styleArray };
+    }
+    if (gender) {
+      const genderFilter = genderMap[gender] || [gender];
+      matchConditions.gender = { $in: genderFilter };
     }
 
     // Build price filter stages

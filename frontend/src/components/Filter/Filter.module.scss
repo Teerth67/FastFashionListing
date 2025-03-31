@@ -1,292 +1,406 @@
-/* Filter component redesign - making it smaller and positioned on left */
-.filterBar {
-  position: relative;
-  width: 200px; /* Narrower width for left sidebar */
-  margin: 0 0 20px 0; /* Remove auto horizontal margin to align left */
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
-}
-
-/* Filter button styling - made more compact */
-.filterButton {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
+.sideFilter {
   width: 100%;
-  padding: 10px 15px; /* Reduced padding */
-  background-color: #f9f9f9;
-  border: 1px solid #e2e2e2;
   border-radius: 8px;
-  font-weight: 600;
-  font-size: 14px; /* Slightly smaller font */
-  cursor: pointer;
-  transition: all 0.2s ease;
-  color: #333;
-  
-  &:hover {
-    background-color: #f2f2f2;
-    border-color: #d8d8d8;
-  }
-  
-  &.active {
-    background-color: #f2f2f2;
-    border-color: #d8d8d8;
-    border-bottom-left-radius: 0;
-    border-bottom-right-radius: 0;
-  }
-}
-
-/* Arrow icon for filter toggle */
-.filterArrow {
-  transition: transform 0.3s ease;
-}
-
-.filterButton.active .filterArrow {
-  transform: rotate(180deg);
-}
-
-/* Filter panel adjustments */
-.filterPanel {
-  position: absolute;
-  left: 0;
-  top: 100%;
-  width: 100%;
-  z-index: 100;
   background-color: white;
-  border: 1px solid #d8d8d8;
-  border-top: none;
-  border-bottom-left-radius: 8px;
-  border-bottom-right-radius: 8px;
-  padding: 12px; /* Reduced padding */
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
-  overflow: visible;
-}
-
-/* Filter sections */
-.filterSection {
-  margin-bottom: 15px; /* Reduced margin */
-  overflow: visible;
-}
-
-.filterSection:last-child {
-  margin-bottom: 0;
-}
-
-.filterHeading {
-  font-weight: 600;
-  font-size: 14px; /* Smaller heading */
-  color: #333;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  cursor: pointer;
-  margin-bottom: 8px; /* Reduced margin */
-}
-
-.filterContent {
-  margin-top: 8px; /* Reduced margin */
-  overflow: visible;
-}
-
-/* Checkbox group - single column for sidebar */
-.checkboxGroup {
-  display: grid;
-  grid-template-columns: 1fr; /* Single column for left sidebar */
-  gap: 8px; /* Reduced gap */
-  max-height: 180px; /* Slightly reduced height */
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.08);
+  padding: 16px;
+  position: sticky;
+  top: 100px;
+  height: calc(100vh - 140px);
   overflow-y: auto;
-  padding-right: 5px;
-  scrollbar-width: thin;
+
+  .appliedFiltersCount {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 16px;
+    font-size: 13px;
+    color: #282c3f;
+    
+    .clearAllButton {
+      color: #000000;
+      background: none;
+      border: none;
+      font-size: 12px;
+      font-weight: 600;
+      cursor: pointer;
+      padding: 0;
+    }
+  }
+
+  .filterSection {
+    margin-bottom: 16px;
+    border-bottom: 1px solid #eaeaec;
+    padding-bottom: 16px;
+
+    &:last-child {
+      border-bottom: none;
+      margin-bottom: 0;
+      padding-bottom: 0;
+    }
+
+    h3 {
+      margin: 0 0 12px;
+      font-size: 14px;
+      font-weight: 600;
+      color: #282c3f;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      cursor: pointer;
+
+      .sectionToggle {
+        font-size: 8px;
+        color: #94969f;
+      }
+    }
+  }
+
+  .filterContent {
+    margin-top: 8px;
+  }
+
+  .checkboxGroup {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    max-height: 200px;
+    overflow-y: auto;
+    padding-right: 5px;
+  }
+
+  .checkboxLabel {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 13px;
+    color: #282c3f;
+    cursor: pointer;
+
+    input[type="checkbox"],
+    input[type="radio"] {
+      appearance: none;
+      width: 16px;
+      height: 16px;
+      border: 1px solid #d4d5d9;
+      border-radius: 2px;
+      position: relative;
+      cursor: pointer;
+
+      &:checked {
+        background-color: #000000;
+        border-color: #000000;
+      }
+    }
+  }
+
+  .searchInput {
+    width: 100%;
+    padding: 8px 12px;
+    border: 1px solid #d4d5d9;
+    border-radius: 4px;
+    font-size: 13px;
+    margin-bottom: 12px;
+  }
+
+  .priceInputs {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    
+    input {
+      width: 80px;
+      padding: 8px 12px;
+      border: 1px solid #d4d5d9;
+      border-radius: 4px;
+      font-size: 13px;
+    }
+  }
+
+  .filterActions {
+    display: flex;
+    gap: 12px;
+    margin-top: 16px;
+    
+    button {
+      padding: 8px 15px;
+      border-radius: 4px;
+      font-size: 13px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+    
+    .applyButton {
+      background-color: #000000;
+      color: white;
+      border: 1px solid #000000;
+    }
+    
+    .resetButton {
+      background-color: white;
+      color: #282c3f;
+      border: 1px solid #d4d5d9;
+    }
+  }
+
+  .filterLoading {
+    text-align: center;
+    padding: 20px 0;
+    color: #94969f;
+  }
+
+  .filterError {
+    padding: 15px;
+    color: #000000;
+    background-color: rgba(255, 63, 108, 0.1);
+    border-radius: 4px;
+    margin-bottom: 15px;
+    
+    button {
+      margin-top: 10px;
+      background-color: #000000;
+      color: white;
+      border: none;
+      padding: 8px 15px;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+  }
+
+  @media (max-width: 768px) {
+    position: static;
+    height: auto;
+    box-shadow: none;
+    padding: 0;
+    background-color: transparent;
+
+    .filterSection {
+      background-color: white;
+      padding: 16px;
+      border-radius: 8px;
+      margin-bottom: 12px;
+      box-shadow: 0 1px 4px rgba(0, 0, 0, 0.08);
+    }
+  }
 }
 
-/* Checkbox styling */
-.filterCheckbox {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-}
-
-.filterCheckbox input[type="checkbox"] {
-  -webkit-appearance: none;
-  appearance: none;
-  width: 16px;
-  height: 16px;
-  border: 1px solid #ccc;
-  border-radius: 3px;
-  margin: 0;
-  cursor: pointer;
-  position: relative;
-  transition: all 0.15s ease;
-}
-
-.filterCheckbox input[type="checkbox"]:checked {
-  background-color: #4a4a4a;
-  border-color: #4a4a4a;
-}
-
-.filterCheckbox input[type="checkbox"]:checked::after {
-  content: '';
-  position: absolute;
-  left: 5px;
-  top: 2px;
-  width: 4px;
-  height: 8px;
-  border: solid white;
-  border-width: 0 2px 2px 0;
-  transform: rotate(45deg);
-}
-
-.filterCheckbox label {
-  font-size: 13px; /* Smaller font for labels */
-  color: #444;
-  cursor: pointer;
-}
-
-/* Price range slider styling */
-.priceRangeSlider {
-  padding: 0 8px; /* Reduced padding */
-  margin-top: 12px; /* Reduced margin */
-  margin-bottom: 20px; /* Reduced margin */
-}
-
-.rangeTrack {
-  width: 100%;
-  height: 4px;
-  background: #e9e9e9;
-  border-radius: 2px;
-  position: relative;
-  margin: 12px 0; /* Reduced margin */
-}
-
-.rangeProgress {
-  position: absolute;
-  top: 0;
-  height: 100%;
-  background-color: #4a4a4a;
-  border-radius: 2px;
-}
-
-.rangeHandle {
-  width: 16px; /* Slightly smaller handle */
-  height: 16px; /* Slightly smaller handle */
-  border-radius: 50%;
-  background-color: white;
-  border: 2px solid #4a4a4a;
-  position: absolute;
-  top: 50%;
-  transform: translate(-50%, -50%);
-  cursor: pointer;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.15);
-}
-
-.priceInputs {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  gap: 10px; /* Reduced gap */
-  margin-top: 5px;
-}
-
-.priceInput {
-  display: flex;
-  align-items: center;
-  gap: 4px; /* Reduced gap */
-}
-
-.priceInput input {
-  width: 70px; /* Narrower input */
-  padding: 6px 8px; /* Reduced padding */
-  border: 1px solid #ddd;
-  border-radius: 5px;
-  font-size: 13px; /* Smaller font */
-}
-
-/* Action buttons - made smaller and Reset button black */
-.filterActions {
-  display: flex;
-  justify-content: space-between;
-  margin-top: 15px; /* Reduced margin */
-  gap: 8px; /* Reduced gap */
-}
-
-.applyButton, .resetButton {
-  padding: 8px 15px; /* Smaller padding */
-  border-radius: 6px;
-  font-size: 13px; /* Smaller font */
-  font-weight: 500;
-  cursor: pointer;
-  transition: all 0.2s ease;
-  text-align: center;
-}
-
-.applyButton {
-  background-color: #333;
+// Mobile filter button (shown only on small screens)
+.mobileFilterButton {
+  display: none;
+  position: fixed;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 100;
+  padding: 12px 24px;
+  background-color: #171616;
   color: white;
   border: none;
-  flex: 1;
+  border-radius: 5px;
+  font-size: 14px;
+  font-weight: 600;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+  cursor: pointer;
 }
 
-.applyButton:hover {
-  background-color: #222;
+// Mobile filter overlay (full screen)
+.filterOverlay {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: white;
+  z-index: 1000;
+  overflow-y: auto;
+  padding: 0;
+  
+  .overlayHeader {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 16px;
+    border-bottom: 1px solid #eaeaec;
+    margin-bottom: 0;
+    position: sticky;
+    top: 0;
+    background-color: white;
+    z-index: 2;
+    
+    h2 {
+      font-size: 16px;
+      font-weight: 600;
+      margin: 0;
+    }
+    
+    .closeButton {
+      background: none;
+      border: none;
+      font-size: 24px;
+      cursor: pointer;
+      padding: 0;
+      color: #282c3f;
+    }
+  }
+
+  // Mobile filter content
+  .filterSection {
+    margin: 0;
+    padding: 12px 16px;
+    border-bottom: 1px solid #eaeaec;
+
+    h3 {
+      margin: 0 0 8px;
+    }
+  }
+
+  // Improved search input for mobile
+  .searchInput {
+    padding: 10px;
+    font-size: 14px;
+    margin-bottom: 10px;
+    border-radius: 4px;
+  }
+
+  // Better spaced price inputs for mobile
+  .priceInputs {
+    input {
+      width: 100%;
+      padding: 10px;
+    }
+    
+    span {
+      padding: 0 8px;
+    }
+  }
+
+  // Apply & Reset buttons - hide in the main content in mobile overlay
+  .filterActions {
+    display: none;
+  }
+  
+  .overlayFooter {
+    display: flex;
+    gap: 10px;
+    padding: 12px 16px;
+    position: sticky;
+    bottom: 0;
+    background-color: white;
+    border-top: 1px solid #eaeaec;
+    z-index: 2;
+    
+    button {
+      flex: 1;
+      padding: 14px;
+      border-radius: 4px;
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+    }
+    
+    .clearButton {
+      background-color: white;
+      border: 1px solid #d4d5d9;
+      color: #282c3f;
+    }
+    
+    .applyButton {
+      background-color: #060606;
+      border: 1px solid #fcfcfc;
+      color: white;
+    }
+  }
+
+  .appliedFiltersCount {
+    padding: 8px 16px;
+    font-size: 13px;
+    font-weight: 500;
+    display: flex;
+    justify-content: space-between;
+    border-bottom: 1px solid #eaeaec;
+
+    .clearAllButton {
+      color: #000000;
+      background: none;
+      border: none;
+      font-size: 12px;
+      font-weight: 600;
+    }
+  }
 }
 
-.resetButton {
-  background-color: #333; /* Changed to black as requested */
-  color: white; /* Changed text to white for readability */
-  border: none; /* Removed border since it's now black */
-  flex: 0 0 auto;
-}
-
-.resetButton:hover {
-  background-color: #222;
-}
-
-/* Custom scrollbar styling */
-.checkboxGroup::-webkit-scrollbar {
-  width: 4px; /* Narrower scrollbar */
-}
-
-.checkboxGroup::-webkit-scrollbar-track {
-  background: #f1f1f1;
-  border-radius: 3px;
-}
-
-.checkboxGroup::-webkit-scrollbar-thumb {
-  background: #ccc;
-  border-radius: 3px;
-}
-
-.checkboxGroup::-webkit-scrollbar-thumb:hover {
-  background: #aaa;
-}
-
-/* Combined layout styling for filter layout */
-.productLayout {
-  display: flex;
-  gap: 20px;
-  max-width: 1200px;
-  margin: 0 auto;
-}
-
-.filterSidebar {
-  flex: 0 0 200px; /* Fixed width sidebar */
-}
-
-.productGrid {
-  flex: 1;
-}
-
-/* Responsive adjustments */
+// Small screen styles
 @media (max-width: 768px) {
-  .productLayout {
-    flex-direction: column;
+  .sideFilter {
+    display: none; // Hide the sidebar filter on small screens
   }
   
-  .filterBar {
-    width: 100%;
-    margin-bottom: 15px;
+  .mobileFilterButton {
+    display: block; // Show the filter button
   }
   
-  .checkboxGroup {
-    grid-template-columns: repeat(2, 1fr);
+  .filterOverlay.visible {
+    display: block; // Show the overlay when active
+  }
+
+  // Columned layout for checkboxes on mobile
+  .filterOverlay {
+    .checkboxGroup {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 10px;
+      max-height: none;
+      overflow-y: visible;
+      padding-right: 0;
+    }
+    
+    // Adjust for smaller brand names
+    .filterSection:has(h3:contains("Brands")) {
+      .checkboxGroup {
+        grid-template-columns: repeat(3, 1fr);
+      }
+    }
+
+    // Special case for gender that needs to be in a single row
+    .filterSection:has(h3:contains("Gender")) {
+      .checkboxGroup {
+        display: flex;
+        flex-direction: row;
+        flex-wrap: wrap;
+        justify-content: space-between;
+        
+        .checkboxLabel {
+          width: auto;
+          margin-right: 10px;
+        }
+      }
+    }
+    
+    .checkboxLabel {
+      padding: 6px 0;
+      font-size: 12px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      
+      input[type="checkbox"],
+      input[type="radio"] {
+        min-width: 18px;
+        min-height: 18px;
+        margin-right: 4px;
+      }
+    }
+  }
+}
+
+// For very small screens, adjust to single column where needed
+@media (max-width: 340px) {
+  .filterOverlay {
+    .filterSection:has(h3:contains("Brands")) {
+      .checkboxGroup {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
   }
 }
