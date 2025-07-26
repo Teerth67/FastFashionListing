@@ -45,7 +45,7 @@ const allowedOrigins = [
 // );
 
 // ROUTES
-app.use("/proxy", proxyRoute);
+// app.use("/proxy", proxyRoute);
 app.use("/api/users", userRoute);
 app.use("/api/products", productRoute);
 app.use("/api/wishlist", wishListRoute);
