@@ -34,15 +34,15 @@ const allowedOrigins = [
 
 
 
-app.use(
-  cors({
-    origin: allowedOrigins,
-    credentials: true, // ✅ Allow cookies, tokens, etc.
-    methods: ["GET", "POST","PATCH", "PUT", "DELETE", "OPTIONS"],
-    allowedHeaders: ["Content-Type", "Authorization"],
-    preflightContinue: false, // ✅ Allow preflight requests through
-  })
-);
+// app.use(
+//   cors({
+//     origin: allowedOrigins,
+//     credentials: true, // ✅ Allow cookies, tokens, etc.
+//     methods: ["GET", "POST","PATCH", "PUT", "DELETE", "OPTIONS"],
+//     allowedHeaders: ["Content-Type", "Authorization"],
+//     preflightContinue: false, // ✅ Allow preflight requests through
+//   })
+// );
 
 // ROUTES
 app.use("/proxy", proxyRoute);
