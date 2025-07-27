@@ -1,7 +1,7 @@
 {
   "files": {
     "main.css": "/static/css/main.51933ae9.css",
-    "main.js": "/static/js/main.f5cb6077.js",
+    "main.js": "/static/js/main.6db2b8ab.js",
     "static/media/gen.webp": "/static/media/gen.fa85f86b6c85d79dd6b9.webp",
     "static/media/d1.webp": "/static/media/d1.225d873328b39a284dc8.webp",
     "static/media/merche.webp": "/static/media/merche.5a5750afdd09f81e5609.webp",
@@ -35,6 +35,7 @@
     "static/media/jay.webp": "/static/media/jay.717e3046d408c4e99ab5.webp",
     "static/media/turnt.webp": "/static/media/turnt.5bc15e14efcd79aea05a.webp",
     "static/media/eve.webp": "/static/media/eve.fed5238605d3aed67dd0.webp",
+    "static/media/axios.cjs": "/static/media/axios.5cdcf59e4b6a285aeb16.cjs",
     "static/media/b19.png": "/static/media/b19.47ee24458430a2233c46.png",
     "static/media/wrap.webp": "/static/media/wrap.43b53b1af0149fff6313.webp",
     "static/media/blck.webp": "/static/media/blck.118b287e5e124758a142.webp",
@@ -49,10 +50,10 @@
     "static/media/revicons.woff": "/static/media/revicons.e8746a624ed098489406.woff",
     "index.html": "/index.html",
     "main.51933ae9.css.map": "/static/css/main.51933ae9.css.map",
-    "main.f5cb6077.js.map": "/static/js/main.f5cb6077.js.map"
+    "main.6db2b8ab.js.map": "/static/js/main.6db2b8ab.js.map"
   },
   "entrypoints": [
     "static/css/main.51933ae9.css",
-    "static/js/main.f5cb6077.js"
+    "static/js/main.6db2b8ab.js"
   ]
 }
