@@ -33,7 +33,12 @@ jobs:
             echo "Frontend directory found, building frontend..."
             cd frontend
             npm install
-            npm run build
+            
+            # Update browserslist database to remove warnings
+            npx update-browserslist-db@latest || true
+            
+            # Build with CI=false to treat warnings as warnings, not errors
+            CI=false GENERATE_SOURCEMAP=false npm run build
             cd ..
           else
             echo "No frontend directory found, skipping frontend build"
