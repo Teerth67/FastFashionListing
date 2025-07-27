@@ -31,7 +31,7 @@ const allowedOrigins = [
 ];
 
 // ROUTES
-app.use("/proxy", proxyRoute(BASE_URL));
+app.use("/proxy", proxyRoute); // ✅ FIXED: Remove the function call
 app.use("/api/users", userRoute);
 app.use("/api/products", productRoute);
 app.use("/api/wishlist", wishListRoute);
