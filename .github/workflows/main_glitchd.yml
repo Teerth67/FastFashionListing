@@ -157,4 +157,3 @@ jobs:
           app-name: 'Glitchd'
           slot-name: 'Production'
           package: .
-          startup-command: 'npm start'
