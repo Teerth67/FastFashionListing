@@ -136,9 +136,6 @@ jobs:
     permissions:
       id-token: write
       contents: read
-    environment:
-      name: 'Production'
-      url: ${{ steps.deploy-to-webapp.outputs.webapp-url }}
 
     steps:
       - name: Download artifact from build job
@@ -147,7 +144,7 @@ jobs:
           name: node-app
 
       - name: Login to Azure
-        uses: azure/login@v2
+        uses: azure/login@v1
         with:
           client-id: ${{ secrets.AZUREAPPSERVICE_CLIENTID_588E826937B9452A8843CE8946E91B7E }}
           tenant-id: ${{ secrets.AZUREAPPSERVICE_TENANTID_1E2F94C8CA45491C8BEB62F84662ADD2 }}
