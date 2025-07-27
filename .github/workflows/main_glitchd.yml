@@ -23,38 +23,48 @@ jobs:
         with:
           node-version: '20.x'
 
-      - name: Clean install dependencies
+      - name: Install backend dependencies
         run: |
-          npm ci --production=false
+          npm install
 
       - name: Build frontend (if exists)
         run: |
           if [ -d "frontend" ]; then
+            echo "Frontend directory found, building frontend..."
             cd frontend
-            npm ci
+            npm install
             npm run build
             cd ..
+          else
+            echo "No frontend directory found, skipping frontend build"
           fi
 
       - name: Create deployment package
         run: |
-          # Remove node_modules to reduce package size
-          rm -rf node_modules
+          echo "Creating deployment package..."
           
-          # Remove development dependencies and files
-          rm -rf .git
-          rm -rf .github
-          rm -rf frontend/src
-          rm -rf frontend/public
-          rm -rf frontend/node_modules
+          # Create a clean directory structure
+          mkdir -p deploy-package
           
-          # Keep only necessary files
-          mkdir -p deployment-package
-          cp -r . deployment-package/ 2>/dev/null || true
+          # Copy backend files
+          cp package.json deploy-package/
+          cp server.js deploy-package/
+          cp -r routes deploy-package/ 2>/dev/null || echo "No routes directory"
+          cp -r middleware deploy-package/ 2>/dev/null || echo "No middleware directory"
+          cp -r models deploy-package/ 2>/dev/null || echo "No models directory"
+          cp -r config deploy-package/ 2>/dev/null || echo "No config directory"
+          cp -r utils deploy-package/ 2>/dev/null || echo "No utils directory"
+          cp web.config deploy-package/ 2>/dev/null || echo "No web.config file"
           
-          # Move contents to root for upload
-          mv deployment-package/* . 2>/dev/null || true
-          rmdir deployment-package 2>/dev/null || true
+          # Copy frontend build if it exists
+          if [ -d "frontend/build" ]; then
+            echo "Copying frontend build..."
+            cp -r frontend/build deploy-package/
+          fi
+          
+          # Move deployment package contents to current directory
+          cp -r deploy-package/* .
+          rm -rf deploy-package
 
       - name: Upload artifact for deployment job
         uses: actions/upload-artifact@v4
@@ -63,11 +73,9 @@ jobs:
           path: |
             .
             !node_modules
+            !frontend
             !.git
             !.github
-            !frontend/src
-            !frontend/public
-            !frontend/node_modules
 
   deploy:
     runs-on: ubuntu-latest
