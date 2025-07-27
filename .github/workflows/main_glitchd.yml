@@ -76,7 +76,9 @@ jobs:
             cp -r backend/models deploy-package/ 2>/dev/null || echo "No backend/models directory"
             cp -r backend/config deploy-package/ 2>/dev/null || echo "No backend/config directory"
             cp -r backend/utils deploy-package/ 2>/dev/null || echo "No backend/utils directory"
-            cp backend/web.config deploy-package/ 2>/dev/null || echo "No backend/web.config file"
+            
+            # Try to copy web.config from backend first, then from root
+            cp backend/web.config deploy-package/ 2>/dev/null || cp web.config deploy-package/ 2>/dev/null || echo "No web.config file found"
             
           else
             echo "No backend directory, assuming files are in root"
