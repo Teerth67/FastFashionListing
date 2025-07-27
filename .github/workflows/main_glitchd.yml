@@ -25,7 +25,16 @@ jobs:
 
       - name: Install backend dependencies
         run: |
-          npm install
+          # Check if we have a backend directory (monorepo structure)
+          if [ -d "backend" ]; then
+            echo "Installing backend dependencies from backend/ directory..."
+            cd backend
+            npm install
+            cd ..
+          else
+            echo "Installing dependencies from root directory..."
+            npm install
+          fi
 
       - name: Build frontend (if exists)
         run: |
@@ -48,28 +57,65 @@ jobs:
         run: |
           echo "Creating deployment package..."
           
-          # Create a clean directory structure
-          mkdir -p deploy-package
+          # List current directory structure for debugging
+          echo "Current directory contents:"
+          ls -la
           
-          # Copy backend files
-          cp package.json deploy-package/
-          cp server.js deploy-package/
-          cp -r routes deploy-package/ 2>/dev/null || echo "No routes directory"
-          cp -r middleware deploy-package/ 2>/dev/null || echo "No middleware directory"
-          cp -r models deploy-package/ 2>/dev/null || echo "No models directory"
-          cp -r config deploy-package/ 2>/dev/null || echo "No config directory"
-          cp -r utils deploy-package/ 2>/dev/null || echo "No utils directory"
-          cp web.config deploy-package/ 2>/dev/null || echo "No web.config file"
+          # Check if we're in a monorepo structure
+          if [ -d "backend" ]; then
+            echo "Backend directory found, copying from backend/"
+            
+            # Create a clean directory structure
+            mkdir -p deploy-package
+            
+            # Copy backend files from backend directory
+            cp backend/package.json deploy-package/ 2>/dev/null || echo "No backend/package.json found"
+            cp backend/server.js deploy-package/ 2>/dev/null || echo "No backend/server.js found"
+            cp -r backend/routes deploy-package/ 2>/dev/null || echo "No backend/routes directory"
+            cp -r backend/middleware deploy-package/ 2>/dev/null || echo "No backend/middleware directory"
+            cp -r backend/models deploy-package/ 2>/dev/null || echo "No backend/models directory"
+            cp -r backend/config deploy-package/ 2>/dev/null || echo "No backend/config directory"
+            cp -r backend/utils deploy-package/ 2>/dev/null || echo "No backend/utils directory"
+            cp backend/web.config deploy-package/ 2>/dev/null || echo "No backend/web.config file"
+            
+          else
+            echo "No backend directory, assuming files are in root"
+            
+            # Create a clean directory structure
+            mkdir -p deploy-package
+            
+            # Copy backend files from root
+            cp package.json deploy-package/ 2>/dev/null || echo "No package.json found"
+            cp server.js deploy-package/ 2>/dev/null || echo "No server.js found"
+            cp -r routes deploy-package/ 2>/dev/null || echo "No routes directory"
+            cp -r middleware deploy-package/ 2>/dev/null || echo "No middleware directory"
+            cp -r models deploy-package/ 2>/dev/null || echo "No models directory"
+            cp -r config deploy-package/ 2>/dev/null || echo "No config directory"
+            cp -r utils deploy-package/ 2>/dev/null || echo "No utils directory"
+            cp web.config deploy-package/ 2>/dev/null || echo "No web.config file"
+          fi
           
           # Copy frontend build if it exists
           if [ -d "frontend/build" ]; then
             echo "Copying frontend build..."
             cp -r frontend/build deploy-package/
+          else
+            echo "No frontend build directory found"
           fi
           
+          # Check what we have in deploy-package
+          echo "Deploy package contents:"
+          ls -la deploy-package/
+          
           # Move deployment package contents to current directory
-          cp -r deploy-package/* .
-          rm -rf deploy-package
+          if [ -d "deploy-package" ] && [ "$(ls -A deploy-package)" ]; then
+            cp -r deploy-package/* .
+            rm -rf deploy-package
+            echo "Deployment package created successfully"
+          else
+            echo "Error: Deploy package is empty or doesn't exist"
+            exit 1
+          fi
 
       - name: Upload artifact for deployment job
         uses: actions/upload-artifact@v4
