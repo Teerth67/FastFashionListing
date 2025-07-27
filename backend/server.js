@@ -51,7 +51,15 @@ app.use("/api/products", productRoute);
 app.use("/api/wishlist", wishListRoute);
 app.use("/newsletter",newsLetterRoutes)
 
+// Serve Frontend (If Deployed)
+app.use(express.static(path.join(__dirname, "../frontend/build")));
 
+app.get("*", (req, res) => {
+  res.sendFile(path.join(__dirname, "../frontend/build", "index.html"));
+});
+
+// ERROR MIDDLEWARE
+app.use(errorHandler);
 
 // API Route to send email
 
@@ -60,9 +68,6 @@ app.get("/", (req, res) => {
   res.send("Home Page...");
 });
 
-// ERROR MIDDLEWARE
-app.use(errorHandler);
-
 const PORT = process.env.PORT || 5000;
 mongoose.set("strictQuery", true);
 connectDB().then(() => {
@@ -70,10 +75,3 @@ connectDB().then(() => {
 });
 
 connectDB();
-
-// Serve Frontend (If Deployed)
-app.use(express.static(path.join(__dirname, "../frontend/build")));
-
-app.get("*", (req, res) => {
-  res.sendFile(path.join(__dirname, "../frontend/build", "index.html"));
-});
