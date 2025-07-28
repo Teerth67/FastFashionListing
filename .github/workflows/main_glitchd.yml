@@ -113,7 +113,8 @@ jobs:
           # Copy frontend build if it exists
           if (Test-Path "frontend/build") {
             Write-Host "Copying frontend build..."
-            Copy-Item "frontend/build" "deploy-package/" -Recurse -Force
+            New-Item -ItemType Directory -Path "deploy-package/frontend" -Force
+            Copy-Item "frontend/build" "deploy-package/frontend/" -Recurse -Force
           } else {
             Write-Host "No frontend build directory found"
           }
