@@ -24,100 +24,113 @@ jobs:
           node-version: '20.x'
 
       - name: Install backend dependencies
+        shell: pwsh
         run: |
           # Check if we have a backend directory (monorepo structure)
-          if [ -d "backend" ]; then
-            echo "Installing backend dependencies from backend/ directory..."
-            cd backend
+          if (Test-Path "backend") {
+            Write-Host "Installing backend dependencies from backend/ directory..."
+            Set-Location backend
             npm install
-            cd ..
-          else
-            echo "Installing dependencies from root directory..."
+            Set-Location ..
+          } else {
+            Write-Host "Installing dependencies from root directory..."
             npm install
-          fi
+          }
 
       - name: Build frontend (if exists)
+        shell: pwsh
         run: |
-          if [ -d "frontend" ]; then
-            echo "Frontend directory found, building frontend..."
-            cd frontend
+          if (Test-Path "frontend") {
+            Write-Host "Frontend directory found, building frontend..."
+            Set-Location frontend
             npm install
             
             # Update browserslist database to remove warnings
-            npx update-browserslist-db@latest || true
+            try { npx update-browserslist-db@latest } catch { Write-Host "Could not update browserslist database" }
             
             # Build with CI=false to treat warnings as warnings, not errors
-            CI=false GENERATE_SOURCEMAP=false npm run build
-            cd ..
-          else
-            echo "No frontend directory found, skipping frontend build"
-          fi
+            $env:CI = "false"
+            $env:GENERATE_SOURCEMAP = "false"
+            npm run build
+            Set-Location ..
+          } else {
+            Write-Host "No frontend directory found, skipping frontend build"
+          }
 
       - name: Create deployment package
+        shell: pwsh
         run: |
-          echo "Creating deployment package..."
+          Write-Host "Creating deployment package..."
           
           # List current directory structure for debugging
-          echo "Current directory contents:"
-          ls -la
+          Write-Host "Current directory contents:"
+          Get-ChildItem
           
           # Check if we're in a monorepo structure
-          if [ -d "backend" ]; then
-            echo "Backend directory found, copying from backend/"
+          if (Test-Path "backend") {
+            Write-Host "Backend directory found, copying from backend/"
             
             # Create a clean directory structure
-            mkdir -p deploy-package
+            New-Item -ItemType Directory -Path "deploy-package" -Force
             
             # Copy backend files from backend directory
-            cp backend/package.json deploy-package/ 2>/dev/null || echo "No backend/package.json found"
-            cp backend/server.js deploy-package/ 2>/dev/null || echo "No backend/server.js found"
-            cp -r backend/routes deploy-package/ 2>/dev/null || echo "No backend/routes directory"
-            cp -r backend/middleware deploy-package/ 2>/dev/null || echo "No backend/middleware directory"
-            cp -r backend/models deploy-package/ 2>/dev/null || echo "No backend/models directory"
-            cp -r backend/config deploy-package/ 2>/dev/null || echo "No backend/config directory"
-            cp -r backend/utils deploy-package/ 2>/dev/null || echo "No backend/utils directory"
+            try { Copy-Item "backend/package.json" "deploy-package/" -ErrorAction SilentlyContinue } catch { Write-Host "No backend/package.json found" }
+            try { Copy-Item "backend/server.js" "deploy-package/" -ErrorAction SilentlyContinue } catch { Write-Host "No backend/server.js found" }
+            try { Copy-Item "backend/routes" "deploy-package/" -Recurse -ErrorAction SilentlyContinue } catch { Write-Host "No backend/routes directory" }
+            try { Copy-Item "backend/middleware" "deploy-package/" -Recurse -ErrorAction SilentlyContinue } catch { Write-Host "No backend/middleware directory" }
+            try { Copy-Item "backend/models" "deploy-package/" -Recurse -ErrorAction SilentlyContinue } catch { Write-Host "No backend/models directory" }
+            try { Copy-Item "backend/config" "deploy-package/" -Recurse -ErrorAction SilentlyContinue } catch { Write-Host "No backend/config directory" }
+            try { Copy-Item "backend/utils" "deploy-package/" -Recurse -ErrorAction SilentlyContinue } catch { Write-Host "No backend/utils directory" }
             
             # Try to copy web.config from backend first, then from root
-            cp backend/web.config deploy-package/ 2>/dev/null || cp web.config deploy-package/ 2>/dev/null || echo "No web.config file found"
+            try {
+              Copy-Item "backend/web.config" "deploy-package/" -ErrorAction SilentlyContinue
+            } catch {
+              try {
+                Copy-Item "web.config" "deploy-package/" -ErrorAction SilentlyContinue
+              } catch {
+                Write-Host "No web.config file found"
+              }
+            }
             
-          else
-            echo "No backend directory, assuming files are in root"
+          } else {
+            Write-Host "No backend directory, assuming files are in root"
             
             # Create a clean directory structure
-            mkdir -p deploy-package
+            New-Item -ItemType Directory -Path "deploy-package" -Force
             
             # Copy backend files from root
-            cp package.json deploy-package/ 2>/dev/null || echo "No package.json found"
-            cp server.js deploy-package/ 2>/dev/null || echo "No server.js found"
-            cp -r routes deploy-package/ 2>/dev/null || echo "No routes directory"
-            cp -r middleware deploy-package/ 2>/dev/null || echo "No middleware directory"
-            cp -r models deploy-package/ 2>/dev/null || echo "No models directory"
-            cp -r config deploy-package/ 2>/dev/null || echo "No config directory"
-            cp -r utils deploy-package/ 2>/dev/null || echo "No utils directory"
-            cp web.config deploy-package/ 2>/dev/null || echo "No web.config file"
-          fi
+            try { Copy-Item "package.json" "deploy-package/" -ErrorAction SilentlyContinue } catch { Write-Host "No package.json found" }
+            try { Copy-Item "server.js" "deploy-package/" -ErrorAction SilentlyContinue } catch { Write-Host "No server.js found" }
+            try { Copy-Item "routes" "deploy-package/" -Recurse -ErrorAction SilentlyContinue } catch { Write-Host "No routes directory" }
+            try { Copy-Item "middleware" "deploy-package/" -Recurse -ErrorAction SilentlyContinue } catch { Write-Host "No middleware directory" }
+            try { Copy-Item "models" "deploy-package/" -Recurse -ErrorAction SilentlyContinue } catch { Write-Host "No models directory" }
+            try { Copy-Item "config" "deploy-package/" -Recurse -ErrorAction SilentlyContinue } catch { Write-Host "No config directory" }
+            try { Copy-Item "utils" "deploy-package/" -Recurse -ErrorAction SilentlyContinue } catch { Write-Host "No utils directory" }
+            try { Copy-Item "web.config" "deploy-package/" -ErrorAction SilentlyContinue } catch { Write-Host "No web.config file" }
+          }
           
           # Copy frontend build if it exists
-          if [ -d "frontend/build" ]; then
-            echo "Copying frontend build..."
-            cp -r frontend/build deploy-package/
-          else
-            echo "No frontend build directory found"
-          fi
+          if (Test-Path "frontend/build") {
+            Write-Host "Copying frontend build..."
+            Copy-Item "frontend/build" "deploy-package/" -Recurse -Force
+          } else {
+            Write-Host "No frontend build directory found"
+          }
           
           # Check what we have in deploy-package
-          echo "Deploy package contents:"
-          ls -la deploy-package/
+          Write-Host "Deploy package contents:"
+          Get-ChildItem "deploy-package"
           
           # Move deployment package contents to current directory
-          if [ -d "deploy-package" ] && [ "$(ls -A deploy-package)" ]; then
-            cp -r deploy-package/* .
-            rm -rf deploy-package
-            echo "Deployment package created successfully"
-          else
-            echo "Error: Deploy package is empty or doesn't exist"
+          if ((Test-Path "deploy-package") -and (Get-ChildItem "deploy-package" | Measure-Object).Count -gt 0) {
+            Get-ChildItem "deploy-package" | Copy-Item -Destination "." -Recurse -Force
+            Remove-Item "deploy-package" -Recurse -Force
+            Write-Host "Deployment package created successfully"
+          } else {
+            Write-Host "Error: Deploy package is empty or doesn't exist"
             exit 1
-          fi
+          }
 
       - name: Upload artifact for deployment job
         uses: actions/upload-artifact@v4
