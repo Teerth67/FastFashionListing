@@ -11,9 +11,9 @@ on:
 
 jobs:
   build:
-    runs-on: ubuntu-latest
+    runs-on: windows-latest
     permissions:
-      contents: read
+      contents: read #This is required for actions/checkout
 
     steps:
       - uses: actions/checkout@v4
@@ -23,136 +23,43 @@ jobs:
         with:
           node-version: '20.x'
 
-      - name: Install backend dependencies
+      - name: npm install, build, and test
         run: |
-          # Check if we have a backend directory (monorepo structure)
-          if [ -d "backend" ]; then
-            echo "Installing backend dependencies from backend/ directory..."
-            cd backend
-            npm install
-            cd ..
-          else
-            echo "Installing dependencies from root directory..."
-            npm install
-          fi
-
-      - name: Build frontend (if exists)
-        run: |
-          if [ -d "frontend" ]; then
-            echo "Frontend directory found, building frontend..."
-            cd frontend
-            npm install
-            
-            # Update browserslist database to remove warnings
-            npx update-browserslist-db@latest || true
-            
-            # Build with CI=false to treat warnings as warnings, not errors
-            CI=false GENERATE_SOURCEMAP=false npm run build
-            cd ..
-          else
-            echo "No frontend directory found, skipping frontend build"
-          fi
-
-      - name: Create deployment package
-        run: |
-          echo "Creating deployment package..."
-          
-          # List current directory structure for debugging
-          echo "Current directory contents:"
-          ls -la
-          
-          # Check if we're in a monorepo structure
-          if [ -d "backend" ]; then
-            echo "Backend directory found, copying from backend/"
-            
-            # Create a clean directory structure
-            mkdir -p deploy-package
-            
-            # Copy backend files from backend directory
-            cp backend/package.json deploy-package/ 2>/dev/null || echo "No backend/package.json found"
-            cp backend/server.js deploy-package/ 2>/dev/null || echo "No backend/server.js found"
-            cp -r backend/routes deploy-package/ 2>/dev/null || echo "No backend/routes directory"
-            cp -r backend/middleware deploy-package/ 2>/dev/null || echo "No backend/middleware directory"
-            cp -r backend/models deploy-package/ 2>/dev/null || echo "No backend/models directory"
-            cp -r backend/config deploy-package/ 2>/dev/null || echo "No backend/config directory"
-            cp -r backend/utils deploy-package/ 2>/dev/null || echo "No backend/utils directory"
-            
-            # Try to copy web.config from backend first, then from root
-            cp backend/web.config deploy-package/ 2>/dev/null || cp web.config deploy-package/ 2>/dev/null || echo "No web.config file found"
-            
-          else
-            echo "No backend directory, assuming files are in root"
-            
-            # Create a clean directory structure
-            mkdir -p deploy-package
-            
-            # Copy backend files from root
-            cp package.json deploy-package/ 2>/dev/null || echo "No package.json found"
-            cp server.js deploy-package/ 2>/dev/null || echo "No server.js found"
-            cp -r routes deploy-package/ 2>/dev/null || echo "No routes directory"
-            cp -r middleware deploy-package/ 2>/dev/null || echo "No middleware directory"
-            cp -r models deploy-package/ 2>/dev/null || echo "No models directory"
-            cp -r config deploy-package/ 2>/dev/null || echo "No config directory"
-            cp -r utils deploy-package/ 2>/dev/null || echo "No utils directory"
-            cp web.config deploy-package/ 2>/dev/null || echo "No web.config file"
-          fi
-          
-          # Copy frontend build if it exists
-          if [ -d "frontend/build" ]; then
-            echo "Copying frontend build..."
-            cp -r frontend/build deploy-package/
-          else
-            echo "No frontend build directory found"
-          fi
-          
-          # Check what we have in deploy-package
-          echo "Deploy package contents:"
-          ls -la deploy-package/
-          
-          # Move deployment package contents to current directory
-          if [ -d "deploy-package" ] && [ "$(ls -A deploy-package)" ]; then
-            cp -r deploy-package/* .
-            rm -rf deploy-package
-            echo "Deployment package created successfully"
-          else
-            echo "Error: Deploy package is empty or doesn't exist"
-            exit 1
-          fi
-
+          npm install
+          npm run build --if-present
+          npm run test --if-present
+      
       - name: Upload artifact for deployment job
         uses: actions/upload-artifact@v4
         with:
           name: node-app
-          path: |
-            .
-            !node_modules
-            !frontend
-            !.git
-            !.github
+          path: .
 
   deploy:
     runs-on: ubuntu-latest
     needs: build
     permissions:
-      id-token: write
-      contents: read
+      id-token: write #This is required for requesting the JWT
+      contents: read #This is required for actions/checkout
 
     steps:
       - name: Download artifact from build job
         uses: actions/download-artifact@v4
         with:
           name: node-app
-
+      
       - name: Login to Azure
         uses: azure/login@v2
         with:
-          client-id: ${{ secrets.AZUREAPPSERVICE_CLIENTID_588E826937B9452A8843CE8946E91B7E }}
-          tenant-id: ${{ secrets.AZUREAPPSERVICE_TENANTID_1E2F94C8CA45491C8BEB62F84662ADD2 }}
-          subscription-id: ${{ secrets.AZUREAPPSERVICE_SUBSCRIPTIONID_93B1839BC9BC42F5915464CB0BCAE9E5 }}
+          client-id: ${{ secrets.AZUREAPPSERVICE_CLIENTID_1A93E2C1030A43A796BF1D7D5B233AFF }}
+          tenant-id: ${{ secrets.AZUREAPPSERVICE_TENANTID_C89D6B7960BA4161997E914967A7211D }}
+          subscription-id: ${{ secrets.AZUREAPPSERVICE_SUBSCRIPTIONID_7D5E44CEF5FF48B7BDD694F13C8549C2 }}
 
       - name: 'Deploy to Azure Web App'
         uses: azure/webapps-deploy@v3
         id: deploy-to-webapp
         with:
           app-name: 'Glitchd'
+          slot-name: 'Production'
           package: .
+          
